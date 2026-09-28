@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Página no encontrada" noindex>
+  <section class="nf bg-wine-grad on-dark">
+    <div class="container narrow">
+      <p class="code">404</p>
+      <h1>Esta página se ha ido <em class="accent">de zambomba</em></h1>
+      <p class="lead">No encontramos lo que buscas, pero la candela sigue encendida.</p>
+      <div class="btn-row">
+        <a class="btn btn-gold" href="/">Volver al inicio <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href="/menus">Ver menús</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-block: clamp(96px, 14vw, 180px); text-align: center; }
+  .code { font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--gold-400); margin-bottom: 12px; }
+  .lead { margin-inline: auto; }
+  .btn-row { justify-content: center; margin-top: 28px; }
+</style>

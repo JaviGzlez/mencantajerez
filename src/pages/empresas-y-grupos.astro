@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { waLink } from '../data/site';
+
+const benefits = [
+  { icon: 'users', title: 'Grupos de todos los tamaños', text: 'Desde un departamento de 10 personas hasta la plantilla completa. Espacio en exclusiva para grupos grandes.' },
+  { icon: 'plate', title: 'Menú a tu medida', text: 'Ajustamos platos, bebida y horario a vuestro presupuesto y a lo que busca el equipo.' },
+  { icon: 'briefcase', title: 'Todo en regla', text: 'Factura a nombre de la empresa, presupuesto cerrado por persona y un único interlocutor.' },
+  { icon: 'music', title: 'Una experiencia, no una comida más', text: 'La zambomba rompe el hielo: se canta, se ríe y el equipo vuelve a la oficina más unido.' },
+] as const;
+
+const faqs = [
+  { q: '¿Podemos tener el espacio en exclusiva?', a: 'Sí. A partir de cierto número de comensales podemos reservar el espacio solo para vuestra empresa. Consúltanos según la fecha.' },
+  { q: '¿Hacéis presupuesto cerrado?', a: 'Sí. Te enviamos un presupuesto por persona con todo incluido: menú, bebida y zambomba, sin sorpresas al final.' },
+  { q: '¿Se puede hacer una comida y alargar la sobremesa?', a: 'Claro, es lo más típico de una zambomba. Te contamos los horarios disponibles y cómo organizar la sobremesa.' },
+  { q: '¿Qué forma de pago aceptáis?', a: 'Transferencia, tarjeta y señal para reservar la fecha. Emitimos factura a nombre de la empresa.' },
+];
+---
+<Base
+  title="Comidas de empresa de Navidad en Jerez con zambomba"
+  description="Organiza la comida o cena de empresa de Navidad en Jerez con zambomba en directo. Grupos grandes, menús a medida, factura y espacio en exclusiva."
+>
+  <PageHero
+    eyebrow="Empresas y grupos"
+    title="La comida de empresa"
+    accent="que todos recuerdan"
+    lead="Comidas y cenas de Navidad para empresas y grupos en Jerez, con zambomba en directo, menús a medida y todo organizado para que tú solo te preocupes de disfrutar."
+    image="/img/empresas-hero.jpg"
+    alt="Grupo de empresa celebrando la Navidad con zambomba"
+  >
+    <div class="btn-row">
+      <a class="btn btn-gold" href={waLink('Hola, quiero presupuesto para una comida de empresa de Navidad. Somos ___ personas y buscamos fecha para el ___.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir presupuesto</a>
+      <a class="btn btn-ghost" href="/menus">Ver menús <Icon name="arrow" /></a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Por qué con nosotros</span>
+        <h2>Todo pensado <em class="accent">para tu equipo</em></h2>
+      </div>
+      <div class="grid grid-4">
+        {benefits.map((b) => (
+          <article class="benefit reveal">
+            <span class="ic"><Icon name={b.icon} /></span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight bg-cream">
+    <div class="container two">
+      <div class="img"><Photo src="/img/empresas-mesa.jpg" alt="Mesa larga preparada para una comida de empresa" /></div>
+      <div>
+        <span class="eyebrow">Cómo lo organizamos</span>
+        <h2>Tú nos cuentas, <em class="accent">nosotros lo montamos</em></h2>
+        <ol class="flow">
+          <li><strong>Nos escribes</strong> con la fecha aproximada y el número de personas.</li>
+          <li><strong>Te enviamos propuesta</strong> de menú y presupuesto cerrado por persona.</li>
+          <li><strong>Confirmas con una señal</strong> y la fecha queda bloqueada para vosotros.</li>
+          <li><strong>El día de la comida</strong> solo tenéis que venir. Del resto nos encargamos.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="section-head center">
+        <span class="eyebrow">Dudas de empresas</span>
+        <h2>Preguntas <em class="accent">frecuentes</em></h2>
+      </div>
+      <Faq items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand title="Reserva la fecha" accent="de tu equipo" text="Diciembre se llena rápido. Escríbenos hoy y te enviamos disponibilidad y presupuesto." />
+</Base>
+
+<style>
+  .benefit { padding: 30px 26px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .ic { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: var(--cream-100); color: var(--wine-700); margin-bottom: 20px; }
+  .ic :global(svg) { width: 26px; height: 26px; }
+  .benefit h3 { font-size: 1.25rem; color: var(--wine-800); }
+  .benefit p { margin: 0; color: var(--ink-700); font-size: 0.98rem; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
+  .img { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .flow { counter-reset: f; list-style: none; margin: 8px 0 0; padding: 0; }
+  .flow li { counter-increment: f; position: relative; padding: 14px 0 14px 56px; border-bottom: 1px solid var(--line); color: var(--ink-700); }
+  .flow li::before {
+    content: counter(f); position: absolute; left: 0; top: 12px; display: grid; place-items: center;
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--wine-700);
+    font-family: var(--font-display); font-style: italic; color: var(--wine-700);
+  }
+  .flow strong { color: var(--ink-900); }
+  @media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+</style>

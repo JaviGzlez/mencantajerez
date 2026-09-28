@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Base
+  title="Blog de zambombas y Navidad en Jerez"
+  description="Calendario de zambombas, villancicos, historia de la zambomba jerezana, gastronomía navideña e ideas para comidas de empresa en Jerez."
+>
+  <section class="head bg-wine-grad on-dark">
+    <div class="container">
+      <span class="eyebrow">Blog</span>
+      <h1>Zambombas y Navidad <em class="accent">en Jerez</em></h1>
+      <p class="lead">Historia, villancicos, gastronomía y todo lo que necesitas saber para vivir la Navidad jerezana.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {posts.length ? (
+        <div class="grid grid-3">{posts.map((p) => <PostCard post={p} />)}</div>
+      ) : (
+        <p class="muted" style="text-align:center">Pronto publicaremos los primeros artículos.</p>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding-block: clamp(64px, 9vw, 112px) clamp(48px, 6vw, 72px); }
+  h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); }
+</style>

@@ -1,0 +1,35 @@
+---
+interface Props { items: { q: string; a: string }[] }
+const { items } = Astro.props;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } })),
+};
+---
+<div class="faq">
+  {items.map((i, idx) => (
+    <details open={idx === 0}>
+      <summary><span>{i.q}</span><i aria-hidden="true"></i></summary>
+      <p>{i.a}</p>
+    </details>
+  ))}
+</div>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<style>
+  .faq { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    padding: 22px 0; cursor: pointer; list-style: none;
+    font-family: var(--font-display); font-size: clamp(1.1rem, 1.8vw, 1.3rem); color: var(--ink-900);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--wine-700); }
+  i { position: relative; width: 16px; height: 16px; flex: none; }
+  i::before, i::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; background: var(--wine-700); transition: transform 0.25s; }
+  i::after { transform: rotate(90deg); }
+  details[open] i::after { transform: rotate(0); }
+  details p { margin: -6px 0 24px; color: var(--ink-700); max-width: 70ch; }
+</style>

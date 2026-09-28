@@ -1,0 +1,17 @@
+---
+// Logotipo provisional en texto. Cuando llegue el logo real,
+// sustituir por <img src="/img/logo.svg" ...>
+interface Props { class?: string }
+---
+<span class:list={['logo', Astro.props.class]}>
+  <span class="l1">mencanta</span>
+  <span class="l2">JEREZ</span>
+  <span class="l3">Vive la Zambomba Jerezana</span>
+</span>
+
+<style>
+  .logo { display: inline-flex; flex-direction: column; line-height: 1; color: #fff; }
+  .l1 { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--gold-400); margin-left: 2px; }
+  .l2 { font-family: var(--font-display); font-weight: 700; font-size: 1.75rem; letter-spacing: 0.06em; margin-top: -1px; }
+  .l3 { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; margin-top: 4px; }
+</style>

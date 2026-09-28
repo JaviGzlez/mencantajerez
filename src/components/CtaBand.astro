@@ -1,0 +1,36 @@
+---
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
+
+interface Props { title?: string; accent?: string; text?: string; image?: string }
+const {
+  title = 'Vive la zambomba',
+  accent = 'jerezana',
+  text = 'Elige fecha y menú, y nosotros ponemos la candela, los villancicos y la mesa. Las fechas de diciembre vuelan.',
+  image = '/img/cta-bodega.jpg',
+} = Astro.props;
+---
+<section class="cta on-dark">
+  <div class="bg"><Photo src={image} alt="" /></div>
+  <div class="container inner">
+    <svg class="flourish" viewBox="0 0 88 14" aria-hidden="true"><path d="M0 7h32M56 7h32" stroke="currentColor"/><path d="M44 1l6 6-6 6-6-6z" fill="none" stroke="currentColor"/></svg>
+    <h2>{title} <em class="accent">{accent}</em></h2>
+    <p class="lead">{text}</p>
+    <div class="btn-row">
+      <a class="btn btn-gold" href={waLink('Hola, quiero consultar disponibilidad para una comida/cena de Navidad con zambomba.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> Consultar fechas
+      </a>
+      <a class="btn btn-ghost" href="/menus">Ver menús <Icon name="arrow" /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { position: relative; isolation: isolate; overflow: hidden; background: var(--wine-950); text-align: center; }
+  .bg { position: absolute; inset: 0; z-index: -1; }
+  .bg::after { content: ''; position: absolute; inset: 0; background: rgba(24, 4, 8, 0.78); }
+  .inner { padding-block: clamp(80px, 10vw, 128px); }
+  .lead { margin-inline: auto; }
+  .btn-row { justify-content: center; margin-top: 30px; }
+</style>

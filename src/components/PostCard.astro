@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const d = post.data;
+const date = d.pubDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<article class="post-card">
+  <a href={`/blog/${post.id}`} class="img"><Photo src={d.image ?? `/img/blog/${post.id}.jpg`} alt={d.imageAlt ?? d.title} /></a>
+  <div class="body">
+    <p class="meta"><span>{d.category}</span> · <time datetime={d.pubDate.toISOString()}>{date}</time></p>
+    <h3><a href={`/blog/${post.id}`}>{d.title}</a></h3>
+    <p class="desc">{d.description}</p>
+  </div>
+</article>
+
+<style>
+  .post-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; }
+  .post-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(34, 21, 15, 0.12); }
+  .img { display: block; aspect-ratio: 16 / 10; overflow: hidden; }
+  .body { padding: 24px 26px 28px; }
+  .meta { font-size: 0.82rem; color: var(--ink-500); margin-bottom: 10px; }
+  .meta span { color: var(--wine-700); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.74rem; }
+  h3 { font-size: 1.3rem; margin-bottom: 10px; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { color: var(--wine-700); }
+  .desc { margin: 0; color: var(--ink-700); font-size: 0.98rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+</style>

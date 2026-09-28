@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+
+const moments = [
+  { time: 'Llegada', title: 'Bienvenida junto a la candela', text: 'Os recibimos en el patio, con el fuego encendido y una copa para ir entrando en calor.' },
+  { time: 'La mesa', title: 'Comida de Navidad jerezana', text: 'Platos de temporada para compartir, servidos sin prisa, como se come en Jerez.' },
+  { time: 'La sobremesa', title: 'Empieza la zambomba', text: 'Cantaores, guitarra, palmas y la zambomba marcando el compás. Los villancicos de siempre.' },
+  { time: 'Al final', title: 'Todos alrededor del fuego', text: 'El momento en el que nadie quiere irse: todo el mundo canta y la candela lo ilumina todo.' },
+];
+---
+<Base
+  title="La zambomba jerezana: qué es y cómo se vive"
+  description="Descubre la zambomba jerezana, tradición navideña de Jerez declarada Bien de Interés Cultural: villancicos flamencos, candela y convivencia. Vívela con nosotros."
+>
+  <PageHero
+    eyebrow="La experiencia"
+    title="Así se vive"
+    accent="una zambomba"
+    lead="Una tradición que nació en los patios de vecinos de Jerez y que hoy sigue siendo la forma más auténtica de celebrar la Navidad en la ciudad."
+    image="/img/zambomba-hero.jpg"
+    alt="Cantaora durante una zambomba en Jerez"
+  />
+
+  <section class="section">
+    <div class="container narrow prose">
+      <p class="lead">La <strong>zambomba jerezana</strong> es una reunión navideña en la que vecinos, familias y amigos se juntan alrededor de una candela para cantar villancicos al compás de la zambomba, la guitarra, las palmas y la botella de anís.</p>
+      <p>Durante generaciones se celebró en los patios de las casas de vecinos de barrios como Santiago o San Miguel. Cada uno aportaba algo de comer, alguien arrancaba a cantar y la noche se alargaba entre coplas. En diciembre de 2015 la Junta de Andalucía declaró la Zambomba de Jerez y Arcos <strong>Bien de Interés Cultural</strong>, reconociendo lo que en Jerez ya se sabía: que es una seña de identidad de la ciudad.</p>
+      <blockquote>En la zambomba no hay público. Aquí todo el mundo canta.</blockquote>
+      <p>Nosotros la vivimos igual: una buena mesa, un espacio con alma de patio y bodega, y músicos que saben cómo hacer que todo el mundo acabe cantando.</p>
+      <p><a href="/blog/que-es-una-zambomba-jerezana">Lee más sobre la historia de la zambomba en nuestro blog →</a></p>
+    </div>
+  </section>
+
+  <section class="section tight bg-wine-grad on-dark">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Paso a paso</span>
+        <h2>Cómo es <em class="accent">tu día</em></h2>
+      </div>
+      <ol class="timeline">
+        {moments.map((m) => (
+          <li class="reveal">
+            <span class="time">{m.time}</span>
+            <h3>{m.title}</h3>
+            <p>{m.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container mosaic">
+      <div class="m1"><Photo src="/img/zambomba-1.jpg" alt="Manos tocando la zambomba" /></div>
+      <div class="m2"><Photo src="/img/zambomba-2.jpg" alt="Guitarrista flamenco durante la zambomba" /></div>
+      <div class="m3"><Photo src="/img/zambomba-3.jpg" alt="Palmas alrededor de la candela" /></div>
+    </div>
+    <p style="text-align:center;margin-top:40px"><a class="btn" href="/menus">Ver menús con zambomba <Icon name="arrow" /></a></p>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; position: relative; }
+  .timeline::before { content: ''; position: absolute; top: 9px; left: 0; right: 0; height: 1px; background: var(--line-light); }
+  .timeline li { position: relative; padding-top: 42px; }
+  .timeline li::before {
+    content: ''; position: absolute; top: 2px; left: 0; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--gold-400); box-shadow: 0 0 0 6px rgba(233, 192, 122, 0.18);
+  }
+  .time { display: block; font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-400); font-weight: 600; margin-bottom: 10px; }
+  .timeline h3 { font-size: 1.3rem; }
+  .timeline p { color: rgba(246, 238, 225, 0.75); margin: 0; }
+  .mosaic { display: grid; grid-template-columns: 1.3fr 1fr; grid-template-rows: 240px 240px; gap: 12px; }
+  .mosaic > div { border-radius: var(--radius-sm); overflow: hidden; }
+  .m1 { grid-row: span 2; }
+  @media (max-width: 900px) {
+    .timeline { grid-template-columns: 1fr; }
+    .timeline::before { top: 0; bottom: 0; left: 7px; right: auto; width: 1px; height: auto; }
+    .timeline li { padding: 0 0 0 40px; }
+    .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 160px; }
+    .m1 { grid-row: auto; grid-column: span 2; }
+  }
+</style>

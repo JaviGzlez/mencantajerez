@@ -1,0 +1,289 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import MenuCard from '../components/MenuCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import PostCard from '../components/PostCard.astro';
+import { site, waLink } from '../data/site';
+import { faqs } from '../data/faqs';
+
+const menus = (await getCollection('menus', ({ data }) => data.active))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const pillars = [
+  { icon: 'music', title: 'Zambomba en directo', text: 'Villancicos flamencos, cante, palmas y el compás de la zambomba alrededor de la candela.', img: '/img/pilar-zambomba.jpg' },
+  { icon: 'plate', title: 'Cocina jerezana', text: 'Menús de temporada con producto de la tierra, pensados para compartir en buena compañía.', img: '/img/pilar-cocina.jpg' },
+  { icon: 'glass', title: 'Espíritu de bodega', text: 'Un patio con luz de farol, botas de vino y ese ambiente que solo tiene Jerez en Navidad.', img: '/img/pilar-patio.jpg' },
+] as const;
+
+const steps = [
+  { n: '01', title: 'Elige tu menú', text: 'Mira nuestros menús de Navidad y quédate con el que más encaje con tu grupo.' },
+  { n: '02', title: 'Reserva la fecha', text: 'Escríbenos por WhatsApp con el día y el número de personas. Te confirmamos al momento.' },
+  { n: '03', title: 'Vive la zambomba', text: 'Llegáis, os sentáis y nosotros nos encargamos del resto: comida, candela y villancicos.' },
+];
+
+const gallery = [
+  { src: '/img/galeria/01.jpg', alt: 'Candela encendida en el patio' },
+  { src: '/img/galeria/02.jpg', alt: 'Cantaores y palmas durante la zambomba' },
+  { src: '/img/galeria/03.jpg', alt: 'Guitarra flamenca en directo' },
+  { src: '/img/galeria/04.jpg', alt: 'Botas de vino en la bodega' },
+  { src: '/img/galeria/05.jpg', alt: 'Grupo disfrutando de la zambomba en el patio' },
+];
+---
+<Base overlayHeader>
+  <!-- ═════════ HERO ═════════ -->
+  <section class="hero on-dark">
+    <div class="hero-bg"><Photo src="/img/hero.jpg" alt="Zambomba alrededor de la candela en un patio de Jerez" eager /></div>
+    <div class="container hero-inner">
+      <span class="eyebrow">Comidas y cenas de Navidad · Jerez</span>
+      <h1>La Navidad<br />se vive en <em class="accent">Jerez</em></h1>
+      <p class="lead">Menús de Navidad para grupos y empresas con zambomba en directo, villancicos flamencos y la calidez de la candela.</p>
+      <div class="btn-row">
+        <a class="btn" href="/menus">Ver menús <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar fecha</a>
+      </div>
+    </div>
+    <div class="container">
+      <ul class="facts">
+        <li><Icon name="calendar" /><span><strong>Temporada</strong>{site.season}</span></li>
+        <li><Icon name="users" /><span><strong>Grupos</strong>{site.groups}</span></li>
+        <li><Icon name="fire" /><span><strong>Incluido</strong>Zambomba en directo en todos los menús</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═════════ INTRO ═════════ -->
+  <section class="section intro">
+    <div class="container intro-grid">
+      <div class="reveal">
+        <span class="eyebrow">Mencanta Jerez</span>
+        <h2>Una tradición <em class="accent">que se siente</em></h2>
+        <p class="lead">La zambomba jerezana es mucho más que música. Es encuentro, es raíz, es la mesa compartida y el latido de una ciudad que en Navidad brilla con luz propia.</p>
+        <p class="muted">Aquí la vivimos como se ha vivido siempre en los patios de vecinos: con buena comida, villancicos de toda la vida y el fuego en el centro. Tú solo tienes que traer las ganas.</p>
+        <a class="link-arrow" href="/la-zambomba">Conoce la experiencia <Icon name="arrow" /></a>
+      </div>
+      <div class="intro-img reveal">
+        <Photo src="/img/intro.jpg" alt="Patio jerezano iluminado durante la zambomba" />
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="grid grid-3 pillars">
+        {pillars.map((p) => (
+          <article class="card pillar reveal">
+            <div class="pillar-img"><Photo src={p.img} alt={p.title} /></div>
+            <div class="pillar-body">
+              <span class="pillar-icon"><Icon name={p.icon} /></span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ CÓMO FUNCIONA ═════════ -->
+  <section class="section tight bg-cream steps-wrap">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Así de fácil</span>
+        <h2>Cómo <em class="accent">funciona</em></h2>
+      </div>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="reveal">
+            <span class="num">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═════════ MENÚS ═════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Nuestros menús</span>
+        <h2>Menús de Navidad <em class="accent">con zambomba</em></h2>
+        <p class="lead">Todos incluyen la zambomba en directo. Elige el tuyo y resérvalo en un mensaje.</p>
+      </div>
+      <div class="grid grid-3 menus">
+        {menus.map((m) => <MenuCard menu={m} compact />)}
+      </div>
+      <p class="center-link"><a class="btn btn-outline" href="/menus">Ver todos los menús con sus platos <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <!-- ═════════ EMPRESAS ═════════ -->
+  <section class="split bg-wine-grad on-dark">
+    <div class="split-img"><Photo src="/img/empresas.jpg" alt="Comida de empresa de Navidad con zambomba" /></div>
+    <div class="split-body">
+      <span class="eyebrow">Empresas y grupos</span>
+      <h2>La comida de empresa <em class="accent">que todos recuerdan</em></h2>
+      <p class="lead">Olvídate del restaurante de siempre. Una comida de Navidad con zambomba une al equipo como ninguna otra cosa: se come, se canta y se brinda.</p>
+      <ul class="checks">
+        <li><Icon name="check" />Espacio para grupos de hasta 150 personas</li>
+        <li><Icon name="check" />Factura a nombre de la empresa</li>
+        <li><Icon name="check" />Menús adaptables a tu presupuesto</li>
+        <li><Icon name="check" />Opción de espacio en exclusiva</li>
+      </ul>
+      <a class="btn btn-gold" href="/empresas-y-grupos">Soluciones para empresas <Icon name="arrow" /></a>
+    </div>
+  </section>
+
+  <!-- ═════════ GALERÍA ═════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Galería</span>
+        <h2>Momentos que quedan <em class="accent">para siempre</em></h2>
+      </div>
+      <div class="gallery">
+        {gallery.map((g, i) => (
+          <figure class:list={['g-item', 'reveal', `g-${i + 1}`]}><Photo src={g.src} alt={g.alt} /></figure>
+        ))}
+      </div>
+      <p class="center-link"><a class="link-arrow" href="/galeria">Ver la galería completa <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <!-- TODO: cuando tengamos reseñas reales de Google, añadir aquí la sección de opiniones -->
+
+  <!-- ═════════ BLOG ═════════ -->
+  {posts.length > 0 && (
+    <section class="section tight bg-cream">
+      <div class="container">
+        <div class="blog-head">
+          <div>
+            <span class="eyebrow">Blog</span>
+            <h2>Todo sobre las <em class="accent">zambombas</em></h2>
+          </div>
+          <a class="link-arrow" href="/blog">Ver todos los artículos <Icon name="arrow" /></a>
+        </div>
+        <div class="grid grid-3">
+          {posts.map((p) => <PostCard post={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ═════════ FAQ ═════════ -->
+  <section class="section">
+    <div class="container faq-grid">
+      <div>
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2>Lo que <em class="accent">nos preguntáis</em></h2>
+        <p class="muted">¿No encuentras tu respuesta? Escríbenos y te contestamos enseguida.</p>
+        <a class="btn btn-wa" href={waLink('Hola, tengo una duda sobre las comidas de Navidad con zambomba.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pregúntanos</a>
+      </div>
+      <Faq items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: min(100svh, 920px); display: flex; flex-direction: column; justify-content: flex-end;
+    background: var(--wine-950);
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: -1; }
+  .hero-bg :global(.photo) { animation: kenburns 22s ease-out both; }
+  @keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(20, 3, 6, 0.88) 0%, rgba(20, 3, 6, 0.5) 50%, rgba(20, 3, 6, 0.1) 100%),
+      linear-gradient(to top, rgba(20, 3, 6, 0.95) 0%, transparent 45%);
+  }
+  .hero-inner { padding-top: 150px; padding-bottom: 48px; }
+  .hero h1 { font-size: clamp(2.9rem, 7.5vw, 5.6rem); line-height: 1.02; margin-bottom: 24px; }
+  .hero .lead { max-width: 46ch; margin-bottom: 34px; }
+  .facts {
+    list-style: none; margin: 0; padding: 26px 0 34px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    border-top: 1px solid var(--line-light);
+  }
+  .facts li { display: flex; gap: 14px; align-items: flex-start; color: rgba(246, 238, 225, 0.85); font-size: 0.95rem; line-height: 1.45; }
+  .facts strong { display: block; color: var(--gold-400); font-weight: 600; font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px; }
+  .facts :global(svg) { width: 26px; height: 26px; color: var(--gold-400); flex: none; }
+
+  /* INTRO */
+  .intro { background:
+    radial-gradient(ellipse at 0% 0%, rgba(217, 165, 83, 0.1), transparent 45%),
+    var(--cream-50); }
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 88px); align-items: center; margin-bottom: clamp(56px, 7vw, 96px); }
+  .intro-grid .lead { margin-bottom: 1em; }
+  .intro-img { aspect-ratio: 5 / 4; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .pillar { display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .pillar:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(34, 21, 15, 0.14); }
+  .pillar-img { aspect-ratio: 16 / 10; overflow: hidden; }
+  .pillar-body { position: relative; padding: 34px 28px 28px; }
+  .pillar-icon {
+    position: absolute; top: -26px; left: 28px; display: grid; place-items: center;
+    width: 52px; height: 52px; border-radius: 50%; background: var(--wine-700); color: var(--gold-400);
+    box-shadow: 0 0 0 5px #fff;
+  }
+  .pillar-icon :global(svg) { width: 24px; height: 24px; }
+  .pillar h3 { color: var(--wine-800); }
+  .pillar p { margin: 0; color: var(--ink-700); }
+
+  /* PASOS */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 56px); counter-reset: s; }
+  .steps li { position: relative; padding-top: 18px; border-top: 1px solid var(--wine-700); }
+  .num { display: block; font-family: var(--font-display); font-style: italic; font-size: 3rem; line-height: 1; color: var(--gold-500); margin-bottom: 14px; }
+  .steps p { color: var(--ink-700); margin: 0; }
+
+  /* MENÚS */
+  .menus { align-items: stretch; margin-top: 12px; }
+  .center-link { text-align: center; margin: clamp(32px, 4vw, 48px) 0 0; }
+
+  /* SPLIT */
+  .split { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; }
+  .split-img { position: relative; min-height: 340px; }
+  .split-img :global(.photo) { position: absolute; inset: 0; }
+  .split-body { padding: clamp(48px, 7vw, 104px) clamp(24px, 6vw, 96px); align-self: center; max-width: 680px; }
+  .checks { list-style: none; margin: 0 0 32px; padding: 0; }
+  .checks li { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line-light); color: rgba(246, 238, 225, 0.9); }
+  .checks :global(svg) { width: 20px; height: 20px; color: var(--gold-400); flex: none; margin-top: 3px; }
+
+  /* GALERÍA */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: clamp(160px, 18vw, 240px); gap: 12px; }
+  .g-item { margin: 0; overflow: hidden; border-radius: var(--radius-sm); }
+  .g-item :global(.photo) { transition: transform 0.6s ease; }
+  .g-item:hover :global(.photo) { transform: scale(1.05); }
+  .g-1 { grid-column: span 2; grid-row: span 2; }
+
+  /* BLOG */
+  .blog-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+  .blog-head h2 { margin: 0; }
+
+  /* FAQ */
+  .faq-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .faq-grid .muted { margin-bottom: 26px; }
+
+  @media (max-width: 900px) {
+    .intro-grid, .faq-grid, .split { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; gap: 16px; }
+    .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 170px; }
+    .g-1 { grid-row: span 1; }
+  }
+  @media (max-width: 560px) {
+    .hero .btn-row .btn { flex: 1 1 100%; }
+    .hero-inner { padding-top: 120px; }
+  }
+</style>

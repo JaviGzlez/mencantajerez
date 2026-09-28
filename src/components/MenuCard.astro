@@ -1,0 +1,93 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { waLink } from '../data/site';
+import Icon from './Icon.astro';
+
+interface Props { menu: CollectionEntry<'menus'>; compact?: boolean }
+const { menu, compact = false } = Astro.props;
+const m = menu.data;
+const msg = `Hola, quiero información del ${m.name} (${m.price} €/pers.) para ___ personas el día ___.`;
+const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2 });
+---
+<article class:list={['menu-card', { featured: m.featured, compact }]} id={menu.id}>
+  {m.tag && <span class="tag">{m.tag}</span>}
+  <header>
+    <h3>{m.name}</h3>
+    <p class="price"><strong>{fmt(m.price)} €</strong> <span>por persona · IVA incl.</span></p>
+    <p class="summary">{m.summary}</p>
+  </header>
+
+  {!compact && (
+    <div class="courses">
+      {m.courses.map((c) => (
+        <div class="course">
+          <h4>{c.title}</h4>
+          <ul>{c.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
+      {m.drinks && (
+        <div class="course">
+          <h4>Bebida</h4>
+          <p>{m.drinks}</p>
+        </div>
+      )}
+    </div>
+  )}
+
+  {m.includes.length > 0 && (
+    <ul class="includes">
+      {m.includes.map((i) => <li><Icon name="check" />{i}</li>)}
+    </ul>
+  )}
+
+  <footer>
+    {m.minGuests && <p class="min"><Icon name="users" /> Mínimo {m.minGuests} personas</p>}
+    <div class="actions">
+      <a class="btn btn-wa" href={waLink(msg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar este menú</a>
+      {compact && <a class="link-arrow" href={`/menus#${menu.id}`}>Ver platos <Icon name="arrow" /></a>}
+    </div>
+  </footer>
+</article>
+
+<style>
+  .menu-card {
+    position: relative; display: flex; flex-direction: column;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(26px, 3vw, 38px); box-shadow: var(--shadow);
+    scroll-margin-top: 110px;
+  }
+  .menu-card.featured {
+    border-color: var(--gold-500);
+    box-shadow: 0 0 0 1px var(--gold-500), var(--shadow);
+  }
+  .tag {
+    position: absolute; top: -13px; left: clamp(26px, 3vw, 38px);
+    background: var(--gold-400); color: var(--wine-950);
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px;
+  }
+  h3 { color: var(--wine-800); font-size: clamp(1.5rem, 2.4vw, 1.85rem); margin-bottom: 8px; }
+  .price { margin-bottom: 14px; color: var(--ink-500); font-size: 0.92rem; }
+  .price strong { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--ink-900); margin-right: 4px; }
+  .summary { color: var(--ink-700); }
+  .courses { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 22px; }
+  .course { margin-bottom: 20px; }
+  h4 {
+    font-family: var(--font-body); font-size: 0.76rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 8px;
+  }
+  .course ul { list-style: none; margin: 0; padding: 0; }
+  .course li { padding: 5px 0; border-bottom: 1px dashed var(--line); color: var(--ink-900); }
+  .course li:last-child { border-bottom: 0; }
+  .course p { margin: 0; color: var(--ink-700); }
+  .includes { list-style: none; margin: 4px 0 20px; padding: 16px 18px; background: var(--cream-100); border-radius: var(--radius-sm); }
+  .includes li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.97rem; padding: 3px 0; color: var(--ink-700); }
+  .includes :global(svg) { width: 18px; height: 18px; color: var(--wine-700); flex: none; margin-top: 4px; }
+  footer { margin-top: auto; }
+  .min { display: flex; gap: 8px; align-items: center; font-size: 0.93rem; color: var(--ink-500); margin-bottom: 16px; }
+  .min :global(svg) { width: 18px; height: 18px; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .actions .btn { white-space: normal; text-align: center; }
+  .compact .actions .btn { flex: 1 1 auto; }
+  @media (max-width: 560px) { .actions .btn { width: 100%; } }
+</style>

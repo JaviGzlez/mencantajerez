@@ -1,0 +1,37 @@
+---
+import Photo from './Photo.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  accent?: string; // palabra final en cursiva dorada
+  lead?: string;
+  image: string;
+  alt: string;
+}
+const { eyebrow, title, accent, lead, image, alt } = Astro.props;
+---
+<section class="page-hero on-dark">
+  <div class="bg"><Photo src={image} alt={alt} eager /></div>
+  <div class="container inner">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h1>{title}{accent && <> <em class="accent">{accent}</em></>}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--wine-950); }
+  .bg { position: absolute; inset: 0; z-index: -1; }
+  .bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(20, 3, 6, 0.9) 0%, rgba(20, 3, 6, 0.55) 55%, rgba(20, 3, 6, 0.25) 100%),
+      linear-gradient(to top, rgba(20, 3, 6, 0.7), transparent 40%);
+  }
+  .inner { padding-block: clamp(72px, 10vw, 128px) clamp(56px, 8vw, 96px); }
+  h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); max-width: 16ch; }
+  .lead { margin-bottom: 0; }
+  .inner :global(.btn-row) { margin-top: 32px; }
+</style>

@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import MenuCard from '../components/MenuCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { site, waLink } from '../data/site';
+
+const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a, b) => a.data.order - b.data.order);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Menu',
+  name: 'Menús de Navidad con zambomba',
+  hasMenuSection: menus.map((m) => ({
+    '@type': 'MenuSection',
+    name: m.data.name,
+    description: m.data.summary,
+    offers: { '@type': 'Offer', price: m.data.price, priceCurrency: 'EUR' },
+    hasMenuItem: m.data.courses.flatMap((c) => c.items.map((i) => ({ '@type': 'MenuItem', name: i }))),
+  })),
+};
+---
+<Base
+  title="Menús de Navidad con zambomba en Jerez"
+  description="Menús de Navidad para grupos y empresas en Jerez con zambomba en directo incluida. Consulta platos, precios por persona y reserva por WhatsApp."
+  jsonLd={jsonLd}
+>
+  <PageHero
+    eyebrow="Temporada de Navidad"
+    title="Nuestros menús"
+    accent="de Navidad"
+    lead="Cocina jerezana para compartir, bebida y zambomba en directo. Elige tu menú y resérvalo en un solo mensaje."
+    image="/img/menus-hero.jpg"
+    alt="Mesa de Navidad con platos típicos de Jerez"
+  />
+
+  <section class="section">
+    <div class="container">
+      <ul class="notes">
+        <li><Icon name="fire" />Zambomba en directo incluida en todos los menús</li>
+        <li><Icon name="users" />{site.groups}</li>
+        <li><Icon name="check" />Adaptamos platos a alergias e intolerancias</li>
+      </ul>
+
+      <div class="grid grid-3 list">
+        {menus.map((m) => <MenuCard menu={m} />)}
+      </div>
+
+      <div class="extra">
+        <div>
+          <h2>¿Buscas algo <em class="accent">a medida</em>?</h2>
+          <p class="muted">Para grupos grandes, comidas de empresa o celebraciones especiales preparamos un menú personalizado. Cuéntanos qué necesitas.</p>
+        </div>
+        <a class="btn btn-wa" href={waLink('Hola, me gustaría un menú a medida para un grupo de ___ personas.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir menú a medida</a>
+      </div>
+
+      <p class="small muted">Precios por persona con IVA incluido. Los menús pueden variar ligeramente según el producto de mercado. Menú infantil disponible bajo petición.</p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .notes { list-style: none; margin: 0 0 clamp(48px, 6vw, 72px); padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; }
+  .notes li { display: flex; align-items: center; gap: 10px; color: var(--ink-700); font-weight: 500; }
+  .notes :global(svg) { width: 20px; height: 20px; color: var(--wine-700); }
+  .list { align-items: start; }
+  .extra {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px;
+    margin-top: clamp(48px, 6vw, 72px); padding: clamp(28px, 4vw, 44px);
+    background: var(--cream-100); border-radius: var(--radius); border: 1px solid var(--line);
+  }
+  .extra h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .extra p { margin: 0; max-width: 56ch; }
+  .small { font-size: 0.88rem; text-align: center; margin-top: 28px; }
+</style>

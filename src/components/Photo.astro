@@ -1,0 +1,51 @@
+---
+/**
+ * Foto con respaldo: si el archivo existe en /public se muestra la imagen;
+ * si no, se pinta un hueco elegante con el nombre del archivo que falta.
+ * Así basta con copiar las fotos reales en public/img con ese nombre.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  src: string; // ej. /img/hero.jpg
+  alt: string;
+  class?: string;
+  eager?: boolean;
+  sizes?: string;
+  width?: number;
+  height?: number;
+}
+const { src, alt, class: cls, eager = false, width = 1600, height = 1067 } = Astro.props;
+const exists = fs.existsSync(path.join(process.cwd(), 'public', src));
+---
+{exists ? (
+  <img
+    src={src}
+    alt={alt}
+    class:list={['photo', cls]}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={eager ? 'high' : 'auto'}
+  />
+) : (
+  <div class:list={['photo', 'photo-ph', cls]} role="img" aria-label={alt}>
+    <span>Foto pendiente<br /><code>public{src}</code></span>
+  </div>
+)}
+
+<style>
+  .photo { width: 100%; height: 100%; object-fit: cover; }
+  .photo-ph {
+    display: grid; place-items: center; text-align: center;
+    background:
+      radial-gradient(ellipse at 50% 110%, rgba(233, 138, 60, 0.55), transparent 55%),
+      radial-gradient(ellipse at 20% 0%, rgba(134, 25, 46, 0.7), transparent 60%),
+      linear-gradient(160deg, #3b0a14, #1f0509);
+    color: rgba(246, 238, 225, 0.6);
+    font-size: 0.8rem; line-height: 1.5; min-height: 100%;
+  }
+  .photo-ph code { font-size: 0.72rem; color: rgba(233, 192, 122, 0.8); }
+</style>

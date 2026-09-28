@@ -1,0 +1,122 @@
+---
+import { nav, waLink } from '../data/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
+---
+<header class:list={['site-header', { overlay }]} data-header>
+  <div class="container bar">
+    <a href="/" class="brand" aria-label="Mencanta Jerez, inicio"><Logo /></a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        {nav.filter((n) => n.href !== '/').map((item) => (
+          <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="btn btn-gold cta" href={waLink('Hola, quiero consultar fechas disponibles para una comida/cena de Navidad con zambomba.')} target="_blank" rel="noopener">
+      Reservar fecha
+    </a>
+
+    <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav" data-burger>
+      <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav hidden>
+    <ul>
+      {nav.map((item) => (
+        <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+      ))}
+    </ul>
+    <a class="btn btn-gold" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar por WhatsApp</a>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]')!;
+  const panel = document.querySelector<HTMLElement>('[data-mobile-nav]')!;
+
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  burger.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    panel.hidden = open;
+    header.classList.toggle('menu-open', !open);
+    document.body.style.overflow = open ? '' : 'hidden';
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--wine-900);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  .site-header.overlay { position: fixed; inset: 0 0 auto 0; background: transparent; }
+  .site-header.overlay::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(20, 3, 6, 0.7), transparent);
+  }
+  .site-header.scrolled, .site-header.menu-open {
+    background: rgba(46, 7, 14, 0.96);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 var(--line-light), 0 10px 30px rgba(0, 0, 0, 0.18);
+  }
+  .bar { display: flex; align-items: center; gap: 28px; min-height: 84px; transition: min-height 0.3s; }
+  .scrolled .bar { min-height: 70px; }
+  .brand { text-decoration: none; flex: none; }
+
+  .nav { margin-left: auto; }
+  .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .nav a {
+    position: relative; display: block; padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.86); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav a::after {
+    content: ''; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 1.5px;
+    background: var(--gold-400); transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease;
+  }
+  .nav a:hover, .nav a[aria-current='page'] { color: #fff; }
+  .nav a:hover::after, .nav a[aria-current='page']::after { transform: scaleX(1); }
+  .cta { min-height: 44px; padding: 10px 22px; }
+
+  .burger {
+    display: none; margin-left: auto; width: 46px; height: 46px; border-radius: 12px;
+    border: 1px solid var(--line-light); background: transparent; color: #fff; cursor: pointer;
+    place-items: center;
+  }
+  .burger :global(svg) { width: 24px; height: 24px; }
+  .burger .i-close, .burger[aria-expanded='true'] .i-open { display: none; }
+  .burger[aria-expanded='true'] .i-close { display: block; }
+
+  .mobile-nav {
+    position: fixed; inset: 70px 0 0 0; background: var(--wine-900);
+    padding: 20px var(--gutter) 40px; overflow-y: auto;
+  }
+  .mobile-nav ul { list-style: none; margin: 0 0 28px; padding: 0; }
+  .mobile-nav li { border-bottom: 1px solid var(--line-light); }
+  .mobile-nav a:not(.btn) {
+    display: block; padding: 16px 0; color: #fff; text-decoration: none;
+    font-family: var(--font-display); font-size: 1.5rem;
+  }
+  .mobile-nav a[aria-current='page'] { color: var(--gold-400); }
+  .mobile-nav .btn { width: 100%; }
+
+  @media (max-width: 1080px) {
+    .nav, .cta { display: none; }
+    .burger { display: grid; }
+    .bar { min-height: 70px; }
+  }
+</style>

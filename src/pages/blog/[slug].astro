@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import PostCard from '../../components/PostCard.astro';
+import Icon from '../../components/Icon.astro';
+import { site, waLink } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const image = d.image ?? `/img/blog/${post.id}.jpg`;
+const date = d.pubDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const related = (await getCollection('blog', ({ data, id }) => !data.draft && id !== post.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.pubDate.toISOString(),
+  dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
+  image: new URL(image, Astro.site).toString(),
+  author: { '@type': 'Organization', name: site.name },
+  publisher: { '@type': 'Organization', name: site.name },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
+};
+---
+<Base title={d.title} description={d.description} image={image} type="article" jsonLd={jsonLd}>
+  <article>
+    <header class="post-head">
+      <div class="container narrow">
+        <nav class="crumbs" aria-label="Migas de pan"><a href="/">Inicio</a> / <a href="/blog">Blog</a></nav>
+        <p class="meta"><span>{d.category}</span> · <time datetime={d.pubDate.toISOString()}>{date}</time></p>
+        <h1>{d.title}</h1>
+        <p class="lead">{d.description}</p>
+      </div>
+    </header>
+
+    <div class="container cover"><Photo src={image} alt={d.imageAlt ?? d.title} eager /></div>
+
+    <div class="container narrow prose body">
+      <Content />
+    </div>
+
+    <aside class="container narrow">
+      <div class="post-cta">
+        <div>
+          <h2>¿Te apetece vivirlo <em class="accent">en persona</em>?</h2>
+          <p>Comidas y cenas de Navidad con zambomba en directo para grupos y empresas en Jerez.</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn" href="/menus">Ver menús <Icon name="arrow" /></a>
+          <a class="btn btn-wa" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar</a>
+        </div>
+      </div>
+    </aside>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section tight bg-cream">
+      <div class="container">
+        <h2 class="rel-title">Sigue leyendo</h2>
+        <div class="grid grid-3">{related.map((p) => <PostCard post={p} />)}</div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .post-head { padding-block: clamp(56px, 8vw, 96px) 36px; }
+  .crumbs { font-size: 0.88rem; color: var(--ink-500); margin-bottom: 18px; }
+  .crumbs a { color: var(--wine-700); text-decoration: none; }
+  .meta { font-size: 0.86rem; color: var(--ink-500); margin-bottom: 14px; }
+  .meta span { color: var(--wine-700); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.76rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+  .cover { max-width: 1000px; }
+  .cover :global(.photo) { aspect-ratio: 16 / 9; border-radius: var(--radius); height: auto; }
+  .body { padding-block: clamp(40px, 5vw, 64px) 24px; }
+  .post-cta {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px;
+    margin-bottom: clamp(56px, 7vw, 88px); padding: clamp(26px, 4vw, 40px);
+    background: var(--wine-900); color: var(--cream-100); border-radius: var(--radius);
+  }
+  .post-cta h2 { color: #fff; font-size: clamp(1.5rem, 3vw, 2rem); }
+  .post-cta .accent { color: var(--gold-400); }
+  .post-cta p { margin: 0; color: rgba(246, 238, 225, 0.8); }
+  .rel-title { margin-bottom: 32px; }
+</style>

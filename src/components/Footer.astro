@@ -1,0 +1,100 @@
+---
+import { site, nav, waLink } from '../data/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer on-dark">
+  <div class="container top">
+    <div class="about">
+      <a href="/" class="brand" aria-label="Inicio"><Logo /></a>
+      <p>Comidas y cenas de Navidad con zambomba en Jerez de la Frontera. Villancicos, candela y la mejor mesa para tu grupo o empresa.</p>
+      <div class="social">
+        <a href={site.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" /></a>
+        <a href={site.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" /></a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="col-title">Explora</h2>
+      <ul class="links">
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="col-title">Visítanos</h2>
+      <ul class="info">
+        <li><Icon name="pin" /><span>{site.address.street}<br />{site.address.postalCode} {site.address.city}</span></li>
+        <li><Icon name="calendar" /><span>Temporada: {site.season}</span></li>
+        {site.hours.map((h) => <li><Icon name="clock" /><span>{h.days}: {h.time}</span></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="col-title">Reservas</h2>
+      <ul class="info">
+        <li><Icon name="whatsapp" /><a href={waLink()} target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><Icon name="phone" /><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>
+        <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container bottom">
+    <p class="motto">Jerez es Navidad. Jerez es zambomba.</p>
+    <p class="legal">
+      © {year} {site.name} ·
+      <a href="/aviso-legal">Aviso legal</a> ·
+      <a href="/privacidad">Privacidad</a> ·
+      <a href="/cookies">Cookies</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(134, 25, 46, 0.4), transparent 50%),
+      var(--wine-950);
+    padding-top: clamp(56px, 7vw, 88px);
+    font-size: 0.97rem;
+  }
+  .top {
+    display: grid; gap: 40px;
+    grid-template-columns: 1.4fr 1fr 1.2fr 1fr;
+    padding-bottom: 48px; border-bottom: 1px solid var(--line-light);
+  }
+  .brand { display: inline-block; text-decoration: none; margin-bottom: 18px; }
+  .about p { color: rgba(246, 238, 225, 0.7); max-width: 34ch; }
+  .col-title {
+    font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-400); margin-bottom: 18px;
+  }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .links li { margin-bottom: 10px; }
+  a { color: rgba(246, 238, 225, 0.82); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--gold-400); }
+  .info li { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; color: rgba(246, 238, 225, 0.82); }
+  .info :global(svg) { width: 18px; height: 18px; flex: none; margin-top: 4px; color: var(--gold-400); }
+  .social { display: flex; gap: 10px; margin-top: 20px; }
+  .social a {
+    display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--line-light);
+  }
+  .social a:hover { border-color: var(--gold-400); }
+  .social :global(svg) { width: 19px; height: 19px; }
+  .bottom {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;
+    padding-block: 26px 30px;
+  }
+  .motto { margin: 0; font-family: var(--font-display); font-style: italic; font-size: 1.1rem; color: var(--gold-400); }
+  .legal { margin: 0; font-size: 0.86rem; color: rgba(246, 238, 225, 0.55); }
+  .legal a { color: inherit; }
+
+  @media (max-width: 900px) { .top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) {
+    .top { grid-template-columns: 1fr; }
+    .bottom { padding-bottom: 96px; } /* hueco para la barra fija móvil */
+  }
+</style>
