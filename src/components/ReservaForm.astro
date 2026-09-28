@@ -70,6 +70,7 @@ const menuData = menus.map((m) => ({ id: m.id, name: m.data.name, price: m.data.
   </label>
 
   <p class="error" data-error role="alert" hidden></p>
+  <p class="ok" data-ok role="status" hidden>Abriendo WhatsApp con tu reserva… Si no se abre, <a data-ok-link href="#" target="_blank" rel="noopener">pulsa aquí</a>.</p>
 
   <button class="btn btn-wa submit" type="submit"><Icon name="whatsapp" /> Enviar reserva por WhatsApp</button>
   <p class="note">Se abrirá WhatsApp con tu mensaje. La reserva queda confirmada cuando te respondamos. ¿Prefieres llamar? {site.phones.join(' · ')}</p>
@@ -81,6 +82,8 @@ const menuData = menus.map((m) => ({ id: m.id, name: m.data.name, price: m.data.
     const qtys = [...form.querySelectorAll('[data-menu]')];
     const totalEl = $('[data-total]');
     const errEl = $('[data-error]');
+    const okEl = $('[data-ok]');
+    const okLink = $('[data-ok-link]');
     const personas = $('[name="personas"]');
     let personasTouched = false;
 
@@ -139,7 +142,14 @@ const menuData = menus.map((m) => ({ id: m.id, name: m.data.name, price: m.data.
       if (f.observaciones.trim()) L.push('', `*Observaciones:* ${f.observaciones.trim()}`);
       L.push('', `_Enviado desde ${siteUrl}_`);
 
-      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(L.join('\n'))}`, '_blank', 'noopener');
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(L.join('\n'))}`;
+      okLink.href = url;
+      okEl.hidden = false;
+      // En móvil se abre la app de WhatsApp directamente; en ordenador, WhatsApp Web en otra pestaña
+      const mobile = matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (mobile) { location.href = url; return; }
+      const w = window.open(url, '_blank');
+      if (w) w.opener = null; else location.href = url;
     });
   });
 </script>
@@ -180,6 +190,8 @@ const menuData = menus.map((m) => ({ id: m.id, name: m.data.name, price: m.data.
   .check input { width: 20px; height: 20px; min-height: 0; margin-top: 2px; accent-color: var(--wine-700); flex: none; }
   .check a { color: var(--wine-700); }
   .error { background: #fdecec; color: #8a1c1c; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.93rem; }
+  .ok { background: #e8f8ee; color: #14622f; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.93rem; }
+  .ok a { color: inherit; font-weight: 600; }
   .submit { width: 100%; margin-top: 4px; }
   .note { font-size: 0.84rem; color: var(--ink-500); margin: 14px 0 0; text-align: center; }
 

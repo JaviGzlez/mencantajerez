@@ -9,15 +9,10 @@
  */
 ---
 <div class="cookie" data-cookie role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
-  <div class="cookie-inner">
-    <p>
-      <strong>Usamos cookies</strong> Solo las técnicas imprescindibles para que la web funcione. Si aceptas, también cargaremos contenido de terceros,
-      como el mapa de Google Maps, que puede instalar sus propias cookies. <a href="/cookies">Más información</a>
-    </p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-outline small" data-cookie-reject>Solo necesarias</button>
-      <button type="button" class="btn small" data-cookie-accept>Aceptar todas</button>
-    </div>
+  <p>Usamos cookies técnicas y, si aceptas, las del mapa de Google. <a href="/cookies">Más info</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="c-btn ghost" data-cookie-reject>Rechazar</button>
+    <button type="button" class="c-btn" data-cookie-accept>Aceptar</button>
   </div>
 </div>
 
@@ -44,21 +39,25 @@
 
 <style>
   .cookie {
-    position: fixed; z-index: 80; left: 16px; right: 16px; bottom: 16px;
-    max-width: 760px; margin-inline: auto;
-    background: #fff; color: var(--ink-900); border-radius: var(--radius);
-    box-shadow: 0 20px 60px rgba(31, 5, 9, 0.35); border: 1px solid var(--line);
+    position: fixed; z-index: 80; left: 16px; bottom: 16px; max-width: 460px;
+    display: flex; align-items: center; gap: 14px;
+    padding: 10px 12px 10px 16px;
+    background: rgba(31, 5, 9, 0.95); color: rgba(246, 238, 225, 0.88);
+    border: 1px solid rgba(233, 192, 122, 0.25); border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
+    font-size: 0.84rem; line-height: 1.4;
   }
-  .cookie-inner { display: flex; align-items: center; gap: 20px; padding: 18px 20px; }
-  .cookie p { margin: 0; font-size: 0.92rem; line-height: 1.5; color: var(--ink-700); }
-  .cookie strong { display: block; color: var(--ink-900); font-size: 1rem; margin-bottom: 2px; }
-  .cookie a { color: var(--wine-700); }
-  .cookie-actions { display: flex; gap: 10px; flex: none; }
-  .cookie :global(.btn.small) { min-height: 42px; padding: 8px 18px; font-size: 0.9rem; }
-  @media (max-width: 700px) {
-    .cookie { left: 10px; right: 10px; bottom: calc(80px + env(safe-area-inset-bottom)); }
-    .cookie-inner { flex-direction: column; align-items: stretch; gap: 14px; }
-    .cookie-actions { flex-direction: column-reverse; }
-    .cookie-actions .btn { width: 100%; }
+  .cookie[hidden] { display: none; }
+  .cookie p { margin: 0; }
+  .cookie a { color: var(--gold-400); }
+  .cookie-actions { display: flex; gap: 6px; flex: none; }
+  .c-btn {
+    font: 600 0.8rem/1 var(--font-body); padding: 8px 12px; min-height: 34px; border-radius: 999px; cursor: pointer;
+    background: var(--gold-400); color: var(--wine-950); border: 1px solid var(--gold-400);
+  }
+  .c-btn.ghost { background: transparent; color: rgba(246, 238, 225, 0.85); border-color: rgba(246, 238, 225, 0.3); }
+  .c-btn:hover { filter: brightness(1.08); }
+  @media (max-width: 560px) {
+    .cookie { left: 8px; right: 8px; max-width: none; bottom: calc(76px + env(safe-area-inset-bottom)); padding: 8px 8px 8px 12px; font-size: 0.8rem; gap: 10px; }
   }
 </style>

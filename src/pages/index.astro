@@ -3,7 +3,8 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
-import MenuCard from '../components/MenuCard.astro';
+import PosterGrid from '../components/PosterGrid.astro';
+import PosterLightbox from '../components/PosterLightbox.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
 import PostCard from '../components/PostCard.astro';
@@ -40,8 +41,8 @@ const gallery = [
 <Base overlayHeader>
   <!-- ═════════ HERO ═════════ -->
   <section class="hero on-dark">
-    <div class="hero-bg"><Photo src="/img/hero.jpg" alt="Zambomba en directo en Mencanta Jerez" eager /></div>
-    <div class="container hero-inner">
+    <div class="hero-bg"><Photo src="/img/hero.jpg" alt="Candela encendida en la Navidad de Jerez" eager width={2034} height={773} position="72% center" /></div>
+    <div class="container hero-inner hero-wide">
       <span class="eyebrow">Plaza Silos · Centro de Jerez</span>
       <h1>La Navidad<br />se vive en <em class="accent">Jerez</em></h1>
       <p class="lead">Zambombas en directo todos los días, menús de Navidad y el mejor ambiente en pleno centro de Jerez.</p>
@@ -50,7 +51,7 @@ const gallery = [
         <a class="btn btn-ghost" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar fecha</a>
       </div>
     </div>
-    <div class="container">
+    <div class="container hero-wide">
       <ul class="facts">
         <li><Icon name="pin" /><span><strong>Dónde</strong>{site.address.street}, centro de Jerez</span></li>
         <li><Icon name="music" /><span><strong>Todos los días</strong>Zambomba en directo con {site.band}</span></li>
@@ -117,10 +118,10 @@ const gallery = [
         <h2>Menús de Navidad <em class="accent">con zambomba</em></h2>
         <p class="lead">Con bodega incluida y zambomba en directo. También sin gluten, vegano e infantil. Elige el tuyo y resérvalo en un mensaje.</p>
       </div>
-      <div class="grid grid-3 menus">
-        {menus.map((m) => <MenuCard menu={m} compact />)}
+      <div class="menus">
+        <PosterGrid size="small" />
       </div>
-      <p class="center-link"><a class="btn btn-outline" href="/menus">Ver todos los menús con sus platos <Icon name="arrow" /></a></p>
+      <p class="center-link"><a class="btn btn-outline" href="/menus">Ver menús y reservar <Icon name="arrow" /></a></p>
     </div>
   </section>
 
@@ -191,13 +192,14 @@ const gallery = [
   </section>
 
   <CtaBand />
+  <PosterLightbox />
 </Base>
 
 <style>
   /* HERO */
   .hero {
     position: relative; isolation: isolate; overflow: hidden;
-    min-height: min(100svh, 920px); display: flex; flex-direction: column; justify-content: flex-end;
+    min-height: min(92svh, 860px); display: flex; flex-direction: column; justify-content: flex-end;
     background: var(--wine-950);
   }
   .hero-bg { position: absolute; inset: 0; z-index: -1; }
@@ -206,10 +208,11 @@ const gallery = [
   .hero-bg::after {
     content: ''; position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(20, 3, 6, 0.88) 0%, rgba(20, 3, 6, 0.5) 50%, rgba(20, 3, 6, 0.1) 100%),
-      linear-gradient(to top, rgba(20, 3, 6, 0.95) 0%, transparent 45%);
+      linear-gradient(90deg, rgba(20, 3, 6, 0.55) 0%, rgba(20, 3, 6, 0.2) 45%, transparent 70%),
+      linear-gradient(to top, rgba(20, 3, 6, 0.92) 0%, transparent 38%);
   }
-  .hero-inner { padding-top: 150px; padding-bottom: 48px; }
+  .hero-wide { max-width: var(--container); }
+  .hero-inner { padding-top: 130px; padding-bottom: 44px; }
   .hero h1 { font-size: clamp(2.9rem, 7.5vw, 5.6rem); line-height: 1.02; margin-bottom: 24px; }
   .hero .lead { max-width: 46ch; margin-bottom: 34px; }
   .facts {
@@ -283,6 +286,7 @@ const gallery = [
     .g-1 { grid-row: span 1; }
   }
   @media (max-width: 560px) {
+    .hero-bg::after { background: linear-gradient(to top, rgba(20, 3, 6, 0.96) 12%, rgba(20, 3, 6, 0.6) 55%, rgba(20, 3, 6, 0.35) 100%); }
     .hero .btn-row .btn { flex: 1 1 100%; }
     .hero-inner { padding-top: 120px; }
   }

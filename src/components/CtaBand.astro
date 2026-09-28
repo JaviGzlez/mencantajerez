@@ -12,7 +12,7 @@ const {
 } = Astro.props;
 ---
 <section class="cta on-dark">
-  <div class="bg"><Photo src={image} alt="" /></div>
+  <div class="bg"><Photo src={image} alt="" fallback="/img/hero.jpg" position="72% center" /></div>
   <div class="container inner">
     <svg class="flourish" viewBox="0 0 88 14" aria-hidden="true"><path d="M0 7h32M56 7h32" stroke="currentColor"/><path d="M44 1l6 6-6 6-6-6z" fill="none" stroke="currentColor"/></svg>
     <h2>{title} <em class="accent">{accent}</em></h2>

@@ -1,0 +1,57 @@
+---
+/**
+ * Carteles de los menús con botón de reservar por WhatsApp.
+ * Pulsar el cartel lo abre en grande (necesita <PosterLightbox /> en la página).
+ */
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
+
+interface Props { size?: 'large' | 'small' }
+const { size = 'large' } = Astro.props;
+const menus = (await getCollection('menus', ({ data }) => data.active && !!data.poster)).sort((a, b) => a.data.order - b.data.order);
+const msg = (name: string, price: number) =>
+  [`Hola, quiero reservar el *${name}* (${price} €/pers.)`, '', '*Nombre:* ', '*Fecha:* ', '*Turno (comida/cena):* ', '*Personas:* '].join('\n');
+---
+<ul class:list={['poster-grid', size]}>
+  {menus.map((m) => (
+    <li id={m.id}>
+      <button type="button" class="poster" data-poster={m.data.poster} data-title={`Cartel del ${m.data.name}`} aria-label={`Ver en grande el cartel del ${m.data.name}`}>
+        <picture>
+          <source srcset={m.data.poster!.replace(/\.jpe?g$/, '.webp')} type="image/webp" />
+          <img src={m.data.poster} alt={`${m.data.name}, ${m.data.price} € por persona: ${m.data.courses.map((c) => c.items.join(', ')).join('; ')}`} width="1024" height="1280" loading="lazy" decoding="async" />
+        </picture>
+      </button>
+      <a class="btn btn-wa" href={waLink(msg(m.data.name, m.data.price))} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> Reservar {m.data.name}
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .poster-grid { list-style: none; margin: 0 auto; padding: 0; max-width: 1040px; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(18px, 2.5vw, 32px); }
+  .poster-grid li { display: flex; flex-direction: column; gap: 14px; width: calc((100% - 2 * clamp(18px, 2.5vw, 32px)) / 3); scroll-margin-top: 110px; }
+  .poster-grid.small { max-width: none; }
+  .poster-grid.small li { width: calc((100% - 4 * clamp(18px, 2.5vw, 32px)) / 5); gap: 10px; }
+  .poster { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 10px; }
+  .poster img { display: block; width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 30px rgba(31, 5, 9, 0.22); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .poster:hover img { transform: translateY(-4px); box-shadow: 0 22px 50px rgba(31, 5, 9, 0.3); }
+  .poster-grid .btn { width: 100%; white-space: normal; text-align: center; }
+  .poster-grid.small .btn { min-height: 44px; padding: 8px 12px; font-size: 0.88rem; }
+
+  @media (max-width: 1100px) {
+    .poster-grid.small { max-width: none; }
+  .poster-grid.small li { width: calc((100% - 2 * clamp(18px, 2.5vw, 32px)) / 3); }
+  }
+  @media (max-width: 760px) {
+    .poster-grid li, .poster-grid.small li { width: calc((100% - clamp(18px, 2.5vw, 32px)) / 2); }
+  }
+  @media (max-width: 480px) {
+    .poster-grid li { width: 100%; max-width: 420px; }
+    .poster-grid.small { max-width: none; }
+  .poster-grid.small li { width: calc((100% - 18px) / 2); }
+    .poster-grid.small .btn { font-size: 0.8rem; padding: 8px; }
+    .poster-grid.small .btn :global(svg) { display: none; }
+  }
+</style>

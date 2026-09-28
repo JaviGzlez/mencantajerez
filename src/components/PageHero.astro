@@ -12,7 +12,7 @@ interface Props {
 const { eyebrow, title, accent, lead, image, alt } = Astro.props;
 ---
 <section class="page-hero on-dark">
-  <div class="bg"><Photo src={image} alt={alt} eager /></div>
+  <div class="bg"><Photo src={image} alt={alt} eager fallback="/img/hero.jpg" position="72% center" /></div>
   <div class="container inner">
     {eyebrow && <span class="eyebrow">{eyebrow}</span>}
     <h1>{title}{accent && <> <em class="accent">{accent}</em></>}</h1>
