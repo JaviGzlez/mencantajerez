@@ -6,7 +6,7 @@ export const site = {
   name: 'Mencanta Jerez',
   tagline: 'Vive la Zambomba Jerezana',
   description:
-    'Zambombas en directo todos los días y menús de Navidad en pleno centro de Jerez, en la Plaza Silos. Entrada gratuita a las actuaciones. Reserva tu comida o cena.',
+    'Zambombas en directo todos los días y menús de Navidad en pleno centro de Jerez, en la Plaza Silos. Entrada gratuita a las actuaciones. Reserva tu almuerzo o cena.',
 
   // WhatsApp de reservas (formato internacional, sin "+" ni espacios)
   // TODO: confirmar cuál de los dos teléfonos tiene WhatsApp
@@ -26,7 +26,13 @@ export const site = {
   mapLink: 'https://maps.google.com/?q=Plaza+Silos+7,+Jerez+de+la+Frontera',
 
   band: 'Los Quintos Mare', // grupo que actúa todos los días
-  season: 'Navidad 2026', // TODO: fechas exactas de apertura y cierre
+  season: 'Fines de semana de noviembre y diciembre',
+  // Días de apertura (solo almuerzo). Formato AAAA-MM-DD. El formulario solo deja elegir estos.
+  openDays: [
+    '2026-11-21', '2026-11-27', '2026-11-28',
+    '2026-12-04', '2026-12-05', '2026-12-06', '2026-12-07', '2026-12-08',
+    '2026-12-11', '2026-12-12', '2026-12-18', '2026-12-19',
+  ],
   hours: [] as { days: string; time: string }[], // TODO: horarios
   drinkPromo: 'Primera copa anticipada a 6 € (marcas promocionales, no servidas en mesa)',
 

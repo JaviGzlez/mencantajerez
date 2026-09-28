@@ -36,7 +36,7 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="col-title">Reservas</h2>
       <ul class="info">
-        <li><Icon name="whatsapp" /><a href={waLink()} target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><Icon name="whatsapp" /><a href="/contacto#reservar" data-reserva>WhatsApp</a></li>
         {site.phones.map((p) => <li><Icon name="phone" /><a href={telLink(p)}>{p}</a></li>)}
         {site.email && <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>}
       </ul>

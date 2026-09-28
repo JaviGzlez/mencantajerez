@@ -6,7 +6,7 @@ import ReservaForm from '../components/ReservaForm.astro';
 import MapEmbed from '../components/MapEmbed.astro';
 import { site, waLink, telLink } from '../data/site';
 ---
-<Base title="Contacto y reservas" description={`Reserva tu comida o cena de Navidad con zambomba en Mencanta Jerez, ${site.address.street}, centro de Jerez. Llámanos al ${site.phones.join(' o ')} o escríbenos por WhatsApp.`}>
+<Base title="Contacto y reservas" description={`Reserva tu almuerzo de Navidad con zambomba en Mencanta Jerez, ${site.address.street}, centro de Jerez. Llámanos al ${site.phones.join(' o ')} o escríbenos por WhatsApp.`}>
   <PageHero
     eyebrow="Contacto"
     title="Hablemos de"
@@ -22,7 +22,7 @@ import { site, waLink, telLink } from '../data/site';
 
       <aside class="info">
         <ul>
-          <li><span class="ic"><Icon name="whatsapp" /></span><div><strong>WhatsApp</strong><a href={waLink()} target="_blank" rel="noopener">Escríbenos directamente</a></div></li>
+          <li><span class="ic"><Icon name="whatsapp" /></span><div><strong>WhatsApp</strong><a href="/contacto#reservar" data-reserva>Reservar por WhatsApp</a></div></li>
           <li><span class="ic"><Icon name="phone" /></span><div><strong>Teléfonos</strong>{site.phones.map((p) => <a href={telLink(p)}>{p}</a>)}</div></li>
           {site.email && <li><span class="ic"><Icon name="mail" /></span><div><strong>Email</strong><a href={`mailto:${site.email}`}>{site.email}</a></div></li>}
           <li><span class="ic"><Icon name="pin" /></span><div><strong>Dirección</strong><span>{site.address.street}, {site.address.city}</span><a href={site.mapLink} target="_blank" rel="noopener">Cómo llegar →</a></div></li>

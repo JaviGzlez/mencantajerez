@@ -43,7 +43,7 @@ const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Nu
   <footer>
     {m.minGuests && <p class="min"><Icon name="users" /> Mínimo {m.minGuests} personas</p>}
     <div class="actions">
-      <a class="btn btn-wa" href={waLink(msg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar este menú</a>
+      <a class="btn btn-wa" href="/contacto#reservar" data-reserva><Icon name="whatsapp" /> Reservar este menú</a>
       {compact && <a class="link-arrow" href={`/menus#${menu.id}`}>Ver platos <Icon name="arrow" /></a>}
       {!compact && m.poster && (
         <button type="button" class="link-arrow poster-btn" data-poster={m.poster} data-title={`Cartel del ${m.name}`}>Ver cartel</button>

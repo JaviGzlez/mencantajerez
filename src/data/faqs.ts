@@ -5,12 +5,12 @@ export const faqs = [
     a: 'En la Plaza Silos, 7, en pleno centro de Jerez de la Frontera.',
   },
   {
-    q: '¿Hay zambomba todos los días?',
-    a: 'Sí. Todos los días actúa en directo nuestro grupo, Los Quintos Mare, y la entrada a las actuaciones y zambombas de nuestra programación es gratuita.',
+    q: '¿Hay zambomba en directo?',
+    a: 'Sí. Todos los días que abrimos actúa en directo nuestro grupo, Los Quintos Mare, y la entrada a las actuaciones y zambombas de nuestra programación es gratuita.',
   },
   {
-    q: '¿Cómo reservo una comida o cena?',
-    a: 'Llámanos al 686 963 422 o al 663 598 345, o escríbenos por WhatsApp con la fecha, el número de personas y el menú que os interesa.',
+    q: '¿Qué días abrís y cómo reservo?',
+    a: 'Abrimos solo para almuerzos los días 21, 27 y 28 de noviembre y 4, 5, 6, 7, 8, 11, 12, 18 y 19 de diciembre. Reserva desde el formulario de la web, por WhatsApp o llamando al 686 963 422 o al 663 598 345.',
   },
   {
     q: '¿Qué menús tenéis y cuánto cuestan?',

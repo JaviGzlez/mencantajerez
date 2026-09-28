@@ -87,6 +87,6 @@ Cada `git push` republica la web automáticamente.
 
 - **Logo oficial** en `public/img/logo-blanco.webp` / `.png` (versión blanca para fondos oscuros). Favicon e imagen para compartir (`og.jpg`) generados a partir del logo.
 - **Carteles de los menús** en `public/img/menus/`. Cada menú los enlaza con el campo `poster:`.
-- **Formulario de reserva** (`src/components/ReservaForm.astro`), en Menús y Contacto. Genera un mensaje de WhatsApp con plantilla fija: nombre, teléfono, fecha, turno, personas, menús con cantidades y total estimado.
+- **Formulario de reserva** (`ReservaForm.astro` + ventana `ReservaModal.astro`). TODOS los botones de WhatsApp y de reservar abren este formulario (atributo `data-reserva`), así los mensajes llegan siempre con la misma plantilla. Los días disponibles se cambian en `openDays` de `src/data/site.ts`.
 - **Aviso de cookies** (`src/components/CookieBanner.astro`). La web no usa analítica; el mapa de Google solo se carga si el usuario acepta. Tipografías alojadas en la propia web (sin Google Fonts).
 - Redes sociales en `src/data/site.ts`.

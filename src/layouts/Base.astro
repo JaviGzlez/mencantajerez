@@ -100,7 +100,7 @@ const schemas = [business, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonL
     <Footer />
     <WhatsAppFloat />
     <CookieBanner />
-    {Astro.url.pathname.replace(/\/$/, '') !== '/contacto' && <ReservaModal />}
+    <ReservaModal />
 
     <script>
       // Animación de entrada al hacer scroll

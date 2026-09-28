@@ -53,8 +53,8 @@ import ReservaForm from './ReservaForm.astro';
   .res-modal[open] { display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; }
   .res-modal::backdrop { background: rgba(20, 3, 6, 0.62); backdrop-filter: blur(2px); }
   .res-panel {
-    position: relative; width: 100%; max-width: 440px; margin: auto;
-    background: var(--cream-50); border-radius: 18px; padding: 28px 26px 24px;
+    position: relative; width: 100%; max-width: 420px; margin: auto;
+    background: var(--cream-50); border-radius: 18px; padding: 26px 24px 22px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
     animation: pop 0.25s ease-out;
   }
@@ -66,7 +66,7 @@ import ReservaForm from './ReservaForm.astro';
   @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
   :global(html.modal-open) { overflow: hidden; }
   @media (max-width: 480px) {
-    .res-modal[open] { padding: 0; }
-    .res-panel { max-width: none; min-height: 100%; border-radius: 0; padding: 22px 18px 28px; }
+    .res-modal[open] { padding: 12px; align-items: center; }
+    .res-panel { padding: 22px 16px 18px; border-radius: 16px; }
   }
 </style>

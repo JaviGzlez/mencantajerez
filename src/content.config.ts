@@ -13,7 +13,7 @@ const menus = defineCollection({
     tag: z.string().optional(), // ej. "El más pedido"
     summary: z.string(),
     minGuests: z.number().optional(),
-    service: z.enum(['comida', 'cena', 'comida y cena']).default('comida y cena'),
+    service: z.string().default('almuerzo'),
     courses: z.array(
       z.object({
         title: z.string(), // "Entrantes para compartir"
