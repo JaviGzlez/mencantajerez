@@ -11,7 +11,8 @@ import { site } from '../data/site';
 interface Props { variant?: 'modal' | 'page' }
 const { variant = 'page' } = Astro.props;
 
-const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a, b) => a.data.order - b.data.order);
+// Solo los menús con cartel (los reales). Un .md sin cartel no aparece en el formulario.
+const menus = (await getCollection('menus', ({ data }) => data.active && !!data.poster)).sort((a, b) => a.data.order - b.data.order);
 const days = site.openDays.map((iso) => {
   const label = new Date(`${iso}T12:00:00`).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Madrid' });
   return { iso, label: label.charAt(0).toUpperCase() + label.slice(1) };
