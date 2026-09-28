@@ -48,7 +48,7 @@ const gallery = [
       <p class="lead">Zambombas en directo todos los días, menús de Navidad y el mejor ambiente en pleno centro de Jerez.</p>
       <div class="btn-row">
         <a class="btn" href="/menus">Ver menús <Icon name="arrow" /></a>
-        <a class="btn btn-ghost" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar fecha</a>
+        <a class="btn btn-ghost" href="/contacto#reservar" data-reserva>Reservar mesa</a>
       </div>
     </div>
     <div class="container hero-wide">
@@ -121,7 +121,7 @@ const gallery = [
       <div class="menus">
         <PosterGrid size="small" />
       </div>
-      <p class="center-link"><a class="btn btn-outline" href="/menus">Ver menús y reservar <Icon name="arrow" /></a></p>
+      <p class="center-link btn-row center"><a class="btn" href="/contacto#reservar" data-reserva>Reservar mesa</a><a class="btn btn-outline" href="/menus">Ver menús <Icon name="arrow" /></a></p>
     </div>
   </section>
 
@@ -253,6 +253,7 @@ const gallery = [
   /* MENÚS */
   .menus { align-items: stretch; margin-top: 12px; }
   .center-link { text-align: center; margin: clamp(32px, 4vw, 48px) 0 0; }
+  .btn-row.center { justify-content: center; }
 
   /* SPLIT */
   .split { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; }

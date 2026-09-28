@@ -1,0 +1,72 @@
+---
+/**
+ * Ventana emergente de reserva.
+ * Cualquier elemento con [data-reserva] la abre. Si lleva data-reserva="Menú 2"
+ * deja ese menú ya seleccionado.
+ */
+import ReservaForm from './ReservaForm.astro';
+---
+<dialog class="res-modal" data-res-modal aria-label="Reserva tu mesa">
+  <div class="res-panel">
+    <button type="button" class="res-close" data-res-close aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+    </button>
+    <ReservaForm variant="modal" />
+  </div>
+</dialog>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-res-modal]')!;
+  const select = dlg.querySelector<HTMLSelectElement>('[data-menu-select]');
+
+  const open = (menu?: string) => {
+    if (menu && select && [...select.options].some((o) => o.value === menu)) select.value = menu;
+    dlg.showModal();
+    document.documentElement.classList.add('modal-open');
+    // en ordenador ponemos el cursor en el nombre; en móvil no, para no abrir el teclado de golpe
+    if (!matchMedia('(pointer: coarse)').matches) dlg.querySelector<HTMLInputElement>('input[name="nombre"]')?.focus({ preventScroll: true });
+    else (document.activeElement as HTMLElement | null)?.blur();
+  };
+  const close = () => dlg.close();
+
+  document.addEventListener('click', (e) => {
+    const t = (e.target as HTMLElement).closest<HTMLElement>('[data-reserva]');
+    if (!t) return;
+    e.preventDefault();
+    // cierra el menú móvil si estaba abierto
+    const burger = document.querySelector<HTMLButtonElement>('[data-burger][aria-expanded="true"]');
+    burger?.click();
+    open(t.dataset.reserva || undefined);
+  });
+  dlg.querySelector('[data-res-close]')!.addEventListener('click', close);
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+  dlg.addEventListener('close', () => document.documentElement.classList.remove('modal-open'));
+  if (location.hash === '#reservar') open();
+</script>
+
+<style>
+  .res-modal {
+    padding: 0; border: 0; background: transparent; color: inherit;
+    width: 100%; max-width: 100vw; height: 100%; max-height: 100dvh;
+    overflow-y: auto; overscroll-behavior: contain;
+  }
+  .res-modal[open] { display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; }
+  .res-modal::backdrop { background: rgba(20, 3, 6, 0.62); backdrop-filter: blur(2px); }
+  .res-panel {
+    position: relative; width: 100%; max-width: 440px; margin: auto;
+    background: var(--cream-50); border-radius: 18px; padding: 28px 26px 24px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    animation: pop 0.25s ease-out;
+  }
+  .res-close {
+    position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; display: grid; place-items: center;
+    border: 0; border-radius: 50%; background: transparent; color: var(--ink-700); cursor: pointer;
+  }
+  .res-close:hover { background: var(--cream-200); }
+  @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+  :global(html.modal-open) { overflow: hidden; }
+  @media (max-width: 480px) {
+    .res-modal[open] { padding: 0; }
+    .res-panel { max-width: none; min-height: 100%; border-radius: 0; padding: 22px 18px 28px; }
+  }
+</style>

@@ -20,9 +20,7 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
       </ul>
     </nav>
 
-    <a class="btn btn-gold cta" href={waLink('Hola, quiero consultar fechas disponibles para una comida/cena de Navidad con zambomba.')} target="_blank" rel="noopener">
-      Reservar fecha
-    </a>
+    <a class="btn btn-gold cta" href="/contacto#reservar" data-reserva>Reservar mesa</a>
 
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav" data-burger>
       <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
@@ -35,7 +33,7 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
         <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
       ))}
     </ul>
-    <a class="btn btn-gold" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar por WhatsApp</a>
+    <a class="btn btn-gold" href="/contacto#reservar" data-reserva>Reservar mesa</a>
   </div>
 </header>
 

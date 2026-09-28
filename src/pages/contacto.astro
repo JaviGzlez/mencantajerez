@@ -18,7 +18,7 @@ import { site, waLink, telLink } from '../data/site';
 
   <section class="section">
     <div class="container grid-contact">
-      <ReservaForm />
+      <div id="reservar"><ReservaForm /></div>
 
       <aside class="info">
         <ul>
@@ -36,6 +36,7 @@ import { site, waLink, telLink } from '../data/site';
 </Base>
 
 <style>
+  #reservar { scroll-margin-top: 100px; }
   .grid-contact { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
   .info ul { list-style: none; margin: 0 0 28px; padding: 0; }
   .info li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }

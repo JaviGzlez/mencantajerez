@@ -1,151 +1,119 @@
 ---
 /**
- * Formulario de reserva que genera un mensaje de WhatsApp ordenado
- * (plantilla) y lo abre listo para enviar al número de reservas.
+ * Formulario de reserva (estilo "Reserva tu mesa").
+ * Al enviar abre WhatsApp con el mensaje ya relleno.
+ * Se usa dentro de la ventana emergente (ReservaModal) y en /contacto.
  */
 import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
 
-interface Props { title?: string; intro?: string; id?: string }
-const { title = 'Solicitar reserva', intro = 'Rellena los datos y se abrirá WhatsApp con tu reserva ya escrita. Solo tienes que pulsar enviar.', id = 'reserva' } = Astro.props;
+interface Props { variant?: 'modal' | 'page' }
+const { variant = 'page' } = Astro.props;
 
 const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a, b) => a.data.order - b.data.order);
-const menuData = menus.map((m) => ({ id: m.id, name: m.data.name, price: m.data.price }));
 ---
-<form class="res-form" id={id} data-res-form novalidate>
-  <div class="head">
-    <h2>{title}</h2>
-    <p>{intro}</p>
+<form class:list={['res-form', variant]} data-res-form novalidate>
+  <p class="kicker">Reserva tu mesa</p>
+  <h2 class="title">Cuéntanos qué necesitas</h2>
+  <p class="intro">Rellena tus datos y se abrirá WhatsApp con tu reserva ya escrita. Te respondemos para confirmar.</p>
+
+  <label>Nombre<input name="nombre" required autocomplete="name" placeholder="Tu nombre" /></label>
+  <label>Teléfono<input name="telefono" type="tel" required autocomplete="tel" inputmode="tel" placeholder="600 000 000" /></label>
+
+  <label>Menú
+    <select name="menu" required data-menu-select>
+      <option value="">Selecciona un menú</option>
+      {menus.map((m) => <option value={m.data.name}>{m.data.name} · {m.data.price} €</option>)}
+      <option value="Varios menús">Varios menús (lo indico en el mensaje)</option>
+      <option value="Aún no lo sé">Aún no lo sé</option>
+    </select>
+  </label>
+
+  <div class="row">
+    <label>Fecha<input name="fecha" type="date" required data-min-today /></label>
+    <label>Turno
+      <select name="turno" required>
+        <option value="">Elige</option>
+        <option>Comida</option>
+        <option>Cena</option>
+      </select>
+    </label>
   </div>
 
-  <fieldset>
-    <legend>Tus datos</legend>
-    <div class="row">
-      <label>Nombre y apellidos *<input name="nombre" required autocomplete="name" /></label>
-      <label>Teléfono *<input name="telefono" type="tel" required autocomplete="tel" inputmode="tel" /></label>
-    </div>
-    <label><span class="lt">Empresa o grupo <span>(opcional)</span></span><input name="empresa" autocomplete="organization" /></label>
-  </fieldset>
+  <label>Número de personas<input name="personas" type="number" min="1" max="500" inputmode="numeric" required placeholder="Ej: 12" /></label>
 
-  <fieldset>
-    <legend>Tu reserva</legend>
-    <div class="row three">
-      <label>Fecha *<input name="fecha" type="date" required data-min-today /></label>
-      <label>Turno *
-        <select name="turno" required>
-          <option value="">Elige…</option>
-          <option>Comida</option>
-          <option>Cena</option>
-        </select>
-      </label>
-      <label>Nº de personas *<input name="personas" type="number" min="1" max="500" inputmode="numeric" required /></label>
-    </div>
-  </fieldset>
+  <label><span>Mensaje <span class="opt">(opcional)</span></span>
+    <textarea name="mensaje" rows="3" placeholder="Ej: somos una empresa, hay 2 celíacos y 3 niños…"></textarea>
+  </label>
 
-  <fieldset>
-    <legend>Menús <span>(si ya lo sabéis, indica cuántos de cada)</span></legend>
-    <ul class="menus">
-      {menuData.map((m) => (
-        <li>
-          <div class="menu-row">
-            <span class="mn">{m.name}<small>{m.price} € / pers.</small></span>
-            <span class="stepper">
-              <button type="button" data-step="-1" aria-label={`Quitar un ${m.name}`}>−</button>
-              <input type="number" min="0" max="500" value="0" inputmode="numeric" data-menu={m.name} data-price={m.price} aria-label={`Cantidad de ${m.name}`} />
-              <button type="button" data-step="1" aria-label={`Añadir un ${m.name}`}>+</button>
-            </span>
-          </div>
-        </li>
-      ))}
+  <div class="notice">
+    <p><strong>Antes de confirmar, ten en cuenta:</strong></p>
+    <ul>
+      <li>Precios <strong>por persona</strong>. Los menús de adulto incluyen <strong>bodega</strong>.</li>
+      <li>Tenemos <strong>Menú Celíaco, Vegano e Infantil</strong>. Indícanos alergias o intolerancias.</li>
+      <li>Zambomba en directo todos los días con <strong>{site.band}</strong>.</li>
+      <li>La reserva queda confirmada cuando te respondamos por WhatsApp.</li>
     </ul>
-    <p class="total" data-total hidden></p>
-  </fieldset>
+  </div>
 
-  <label><span class="lt">Observaciones <span>(alergias, intolerancias, carros de bebé, hora aproximada…)</span></span><textarea name="observaciones" rows="3"></textarea></label>
+  <label class="check promo">
+    <input type="checkbox" name="promo" />
+    <span>🥂 Quiero la promoción de <strong>primera copa anticipada a 6 €</strong></span>
+  </label>
 
   <label class="check">
     <input type="checkbox" name="privacidad" required />
-    <span>He leído y acepto la <a href="/privacidad" target="_blank">política de privacidad</a>. *</span>
+    <span>He leído y acepto la <a href="/privacidad" target="_blank">política de privacidad</a>.</span>
   </label>
 
   <p class="error" data-error role="alert" hidden></p>
-  <p class="ok" data-ok role="status" hidden>Abriendo WhatsApp con tu reserva… Si no se abre, <a data-ok-link href="#" target="_blank" rel="noopener">pulsa aquí</a>.</p>
+  <p class="ok" data-ok role="status" hidden>Abriendo WhatsApp… Si no se abre, <a data-ok-link href="#" target="_blank" rel="noopener">pulsa aquí</a>.</p>
 
-  <button class="btn btn-wa submit" type="submit"><Icon name="whatsapp" /> Enviar reserva por WhatsApp</button>
-  <p class="note">Se abrirá WhatsApp con tu mensaje. La reserva queda confirmada cuando te respondamos. ¿Prefieres llamar? {site.phones.join(' · ')}</p>
+  <button class="btn submit" type="submit">Continuar por WhatsApp <Icon name="whatsapp" /></button>
+  <p class="note">¿Prefieres llamar? {site.phones.join(' · ')}</p>
 </form>
 
-<script define:vars={{ phone: site.whatsapp, siteUrl: 'zambombajerez.com' }}>
+<script define:vars={{ phone: site.whatsapp }}>
   document.querySelectorAll('[data-res-form]').forEach((form) => {
+    if (form.dataset.ready) return;
+    form.dataset.ready = '1';
     const $ = (s) => form.querySelector(s);
-    const qtys = [...form.querySelectorAll('[data-menu]')];
-    const totalEl = $('[data-total]');
     const errEl = $('[data-error]');
     const okEl = $('[data-ok]');
     const okLink = $('[data-ok-link]');
-    const personas = $('[name="personas"]');
-    let personasTouched = false;
 
-    // Fecha mínima: hoy
     const d = new Date();
     $('[data-min-today]').min = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-
-    const eur = (n) => n.toLocaleString('es-ES') + ' €';
-    const update = () => {
-      const count = qtys.reduce((a, i) => a + (parseInt(i.value) || 0), 0);
-      const total = qtys.reduce((a, i) => a + (parseInt(i.value) || 0) * Number(i.dataset.price), 0);
-      totalEl.hidden = count === 0;
-      totalEl.textContent = `${count} ${count === 1 ? 'menú' : 'menús'} · total estimado ${eur(total)}`;
-      if (!personasTouched && count > 0) personas.value = count;
-    };
-    personas.addEventListener('input', () => (personasTouched = true));
-    form.querySelectorAll('[data-step]').forEach((b) =>
-      b.addEventListener('click', () => {
-        const input = b.parentElement.querySelector('input');
-        input.value = Math.max(0, (parseInt(input.value) || 0) + Number(b.dataset.step));
-        update();
-      }),
-    );
-    qtys.forEach((i) => i.addEventListener('input', update));
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       errEl.hidden = true;
       const bad = [...form.querySelectorAll('[required]')].find((el) => (el.type === 'checkbox' ? !el.checked : !el.value.trim()));
       if (bad) {
-        errEl.textContent = bad.type === 'checkbox' ? 'Tienes que aceptar la política de privacidad.' : 'Rellena los campos marcados con *.';
+        errEl.textContent = bad.type === 'checkbox' ? 'Tienes que aceptar la política de privacidad.' : 'Rellena todos los campos, por favor.';
         errEl.hidden = false;
         bad.focus();
         return;
       }
       const f = Object.fromEntries(new FormData(form));
-      const fecha = new Date(f.fecha + 'T12:00').toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-      const chosen = qtys.filter((i) => parseInt(i.value) > 0);
-      const total = chosen.reduce((a, i) => a + parseInt(i.value) * Number(i.dataset.price), 0);
-
+      const fecha = new Date(f.fecha + 'T12:00').toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
       const L = [
-        '*SOLICITUD DE RESERVA · MENCANTA JEREZ*',
+        '*RESERVA · MENCANTA JEREZ*',
         '',
         `*Nombre:* ${f.nombre.trim()}`,
         `*Teléfono:* ${f.telefono.trim()}`,
+        `*Menú:* ${f.menu}`,
+        `*Fecha:* ${fecha}`,
+        `*Turno:* ${f.turno}`,
+        `*Personas:* ${f.personas}`,
       ];
-      if (f.empresa.trim()) L.push(`*Empresa / grupo:* ${f.empresa.trim()}`);
-      L.push('', `*Fecha:* ${fecha}`, `*Turno:* ${f.turno}`, `*Personas:* ${f.personas}`, '');
-      if (chosen.length) {
-        L.push('*Menús:*');
-        chosen.forEach((i) => L.push(`• ${i.value} × ${i.dataset.menu} (${i.dataset.price} €)`));
-        L.push(`*Total estimado:* ${eur(total)}`);
-      } else {
-        L.push('*Menús:* por decidir');
-      }
-      if (f.observaciones.trim()) L.push('', `*Observaciones:* ${f.observaciones.trim()}`);
-      L.push('', `_Enviado desde ${siteUrl}_`);
+      if (f.promo) L.push('*Promoción:* primera copa anticipada a 6 €');
+      if (f.mensaje && f.mensaje.trim()) L.push('', `*Mensaje:* ${f.mensaje.trim()}`);
 
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(L.join('\n'))}`;
       okLink.href = url;
       okEl.hidden = false;
-      // En móvil se abre la app de WhatsApp directamente; en ordenador, WhatsApp Web en otra pestaña
       const mobile = matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (mobile) { location.href = url; return; }
       const w = window.open(url, '_blank');
@@ -155,48 +123,38 @@ const menuData = menus.map((m) => ({ id: m.id, name: m.data.name, price: m.data.
 </script>
 
 <style>
-  .res-form { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(22px, 4vw, 44px); }
-  .head h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin-bottom: 6px; }
-  .head p { color: var(--ink-500); margin-bottom: 22px; }
-  fieldset { border: 0; padding: 0; margin: 0 0 8px; min-width: 0; }
-  legend { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 12px; padding: 0; }
-  legend span { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink-500); font-size: 0.85rem; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .row.three { grid-template-columns: 1.2fr 1fr 1fr; }
-  label { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; font-weight: 600; font-size: 0.92rem; color: var(--ink-900); min-width: 0; }
-  .lt span { font-weight: 400; color: var(--ink-500); }
+  .res-form { font-size: 0.95rem; color: var(--ink-900); }
+  .res-form.page { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(22px, 4vw, 40px); }
+  .kicker { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--wine-700); margin: 0 0 8px; }
+  .title { font-size: clamp(1.4rem, 2.6vw, 1.75rem); margin: 0 0 8px; }
+  .intro { color: var(--ink-500); font-size: 0.9rem; margin: 0 0 20px; }
+  label { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; font-size: 0.84rem; font-weight: 500; color: var(--ink-700); min-width: 0; }
+  .opt { color: var(--ink-500); font-weight: 400; }
+  .row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; }
   input, select, textarea {
-    font: inherit; font-weight: 400; font-size: 1rem; color: var(--ink-900); width: 100%;
-    padding: 12px 14px; min-height: 48px; border: 1px solid rgba(74, 13, 24, 0.22); border-radius: var(--radius-sm);
-    background: var(--cream-50); transition: border-color 0.2s, box-shadow 0.2s;
+    font: inherit; font-size: 0.97rem; color: var(--ink-900); width: 100%;
+    padding: 11px 13px; min-height: 46px; border: 1px solid rgba(74, 13, 24, 0.2); border-radius: 10px;
+    background: #fff; transition: border-color 0.2s, box-shadow 0.2s;
   }
+  input::placeholder, textarea::placeholder { color: #a8998f; }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--wine-700); box-shadow: 0 0 0 3px rgba(107, 20, 36, 0.12); }
-  textarea { resize: vertical; }
+  textarea { resize: vertical; min-height: 84px; }
 
-  .menus { list-style: none; margin: 0 0 8px; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; }
-  .menus li + li { border-top: 1px solid var(--line); }
-  .menu-row { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; margin: 0; padding: 10px 14px; background: var(--cream-50); }
-  .mn { display: flex; flex-direction: column; font-weight: 600; }
-  .mn small { font-weight: 400; color: var(--ink-500); font-size: 0.84rem; }
-  .stepper { display: inline-flex; align-items: center; border: 1px solid rgba(74, 13, 24, 0.22); border-radius: 999px; background: #fff; flex: none; }
-  .stepper button { width: 40px; height: 40px; border: 0; background: none; font-size: 1.3rem; color: var(--wine-700); cursor: pointer; border-radius: 50%; }
-  .stepper button:hover { background: var(--cream-100); }
-  .stepper input { width: 46px; min-height: 40px; padding: 0; border: 0; background: transparent; text-align: center; font-weight: 600; -moz-appearance: textfield; }
-  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .stepper input:focus { box-shadow: none; }
-  .total { margin: 6px 0 14px; font-weight: 600; color: var(--wine-700); text-align: right; }
+  .notice { background: var(--cream-100); border-left: 3px solid var(--wine-700); border-radius: 8px; padding: 14px 16px; margin: 6px 0 14px; font-size: 0.85rem; color: var(--ink-700); }
+  .notice p { margin: 0 0 6px; color: var(--ink-900); }
+  .notice ul { margin: 0; padding-left: 18px; }
+  .notice li { margin: 3px 0; }
 
-  .check { flex-direction: row; align-items: flex-start; gap: 10px; font-weight: 400; font-size: 0.93rem; color: var(--ink-700); }
-  .check input { width: 20px; height: 20px; min-height: 0; margin-top: 2px; accent-color: var(--wine-700); flex: none; }
+  .check { flex-direction: row; align-items: flex-start; gap: 10px; font-size: 0.84rem; font-weight: 400; }
+  .check input { width: 18px; height: 18px; min-height: 0; margin-top: 1px; padding: 0; accent-color: var(--wine-700); flex: none; }
   .check a { color: var(--wine-700); }
-  .error { background: #fdecec; color: #8a1c1c; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.93rem; }
-  .ok { background: #e8f8ee; color: #14622f; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.93rem; }
+  .promo { background: #fff7ea; border: 1px solid rgba(217, 165, 83, 0.45); border-radius: 10px; padding: 12px 14px; color: var(--ink-900); }
+
+  .error { background: #fdecec; color: #8a1c1c; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; margin: 0 0 12px; }
+  .ok { background: #e8f8ee; color: #14622f; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; margin: 0 0 12px; }
   .ok a { color: inherit; font-weight: 600; }
   .submit { width: 100%; margin-top: 4px; }
-  .note { font-size: 0.84rem; color: var(--ink-500); margin: 14px 0 0; text-align: center; }
+  .note { font-size: 0.8rem; color: var(--ink-500); margin: 12px 0 0; text-align: center; }
 
-  @media (max-width: 640px) {
-    .row, .row.three { grid-template-columns: 1fr; gap: 0; }
-    .menu-row { padding: 10px 12px; }
-  }
+  @media (max-width: 340px) { .row { grid-template-columns: 1fr; gap: 0; } }
 </style>

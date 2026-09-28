@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
 import { site, waLink } from '../data/site';
-import ReservaForm from '../components/ReservaForm.astro';
 import PosterGrid from '../components/PosterGrid.astro';
 import PosterLightbox from '../components/PosterLightbox.astro';
 
@@ -32,7 +31,7 @@ const jsonLd = {
     eyebrow="Temporada de Navidad"
     title="Nuestros menús"
     accent="de Navidad"
-    lead="Bodega incluida y zambomba en directo. Elige tu menú y resérvalo por WhatsApp en un momento."
+    lead="Bodega incluida y zambomba en directo. Elige tu menú y reserva tu mesa en un momento."
     image="/img/menus-hero.jpg"
     alt="Mesa de Navidad con platos típicos de Jerez"
   />
@@ -47,6 +46,8 @@ const jsonLd = {
 
       <PosterGrid />
 
+      <p class="book"><a class="btn btn-lg" href="/contacto#reservar" data-reserva>Reservar mesa <Icon name="arrow" /></a></p>
+
       <p class="small muted">Pulsa en un cartel para verlo en grande. Precios por persona. Si tienes alguna alergia o intolerancia, avísanos al reservar.<br />Promoción: {site.drinkPromo}.</p>
 
       <div class="extra">
@@ -54,14 +55,8 @@ const jsonLd = {
           <h2>¿Venís <em class="accent">en grupo</em>?</h2>
           <p class="muted">Para comidas de empresa y grupos grandes, cuéntanos cuántos sois y qué fecha buscáis, y te informamos de disponibilidad y promociones en copas.</p>
         </div>
-        <a class="btn btn-wa" href={waLink('Hola, somos un grupo de ___ personas y queremos reservar para el día ___.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Consultar para grupos</a>
+        <a class="btn" href="/contacto#reservar" data-reserva>Reservar para grupo</a>
       </div>
-    </div>
-  </section>
-
-  <section class="section" id="reservar">
-    <div class="container narrow">
-      <ReservaForm title="Reserva tu menú" />
     </div>
   </section>
 
@@ -79,6 +74,8 @@ const jsonLd = {
   }
   .extra h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
   .extra p { margin: 0; max-width: 56ch; }
-  .small { font-size: 0.88rem; text-align: center; margin-top: 28px; }
+  .small { font-size: 0.88rem; text-align: center; margin-top: 18px; }
+  .book { text-align: center; margin: clamp(32px, 4vw, 44px) 0 0; }
+  .btn-lg { min-height: 56px; padding: 14px 36px; font-size: 1.05rem; }
   @media (max-width: 640px) { .notes { flex-direction: column; align-items: flex-start; max-width: 420px; margin-inline: auto; } }
 </style>
