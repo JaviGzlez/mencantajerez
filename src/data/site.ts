@@ -1,43 +1,40 @@
 // ─────────────────────────────────────────────────────────────
-//  Datos del negocio. Todo lo que ponga TODO hay que rellenarlo
-//  con la información real antes de publicar.
+//  Datos del negocio. Lo que pone TODO está pendiente de confirmar.
 // ─────────────────────────────────────────────────────────────
 
 export const site = {
   name: 'Mencanta Jerez',
   tagline: 'Vive la Zambomba Jerezana',
   description:
-    'Comidas y cenas de Navidad con zambomba en Jerez de la Frontera. Menús para grupos y empresas, villancicos flamencos y ambiente alrededor de la candela.',
+    'Zambombas en directo todos los días y menús de Navidad en pleno centro de Jerez, en la Plaza Silos. Entrada gratuita a las actuaciones. Reserva tu comida o cena.',
 
-  // TODO: número real en formato internacional, sin espacios ni "+"
-  whatsapp: '34600000000',
-  whatsappDefaultMessage: 'Hola, me gustaría información sobre las comidas de Navidad con zambomba.',
-  // TODO
-  phone: '+34 600 000 000',
-  email: 'info@mencantajerez.com', // TODO
+  // WhatsApp de reservas (formato internacional, sin "+" ni espacios)
+  // TODO: confirmar cuál de los dos teléfonos tiene WhatsApp
+  whatsapp: '34686963422',
+  whatsappDefaultMessage: 'Hola, me gustaría información para reservar en Mencanta Jerez.',
+  phones: ['686 963 422', '663 598 345'],
+  email: '', // TODO: email de contacto, si lo hay
 
   address: {
-    street: 'Calle Ejemplo, 1', // TODO
+    street: 'Plaza Silos, 7',
     city: 'Jerez de la Frontera',
     region: 'Cádiz',
-    postalCode: '11400', // TODO
+    postalCode: '', // TODO
     country: 'ES',
   },
-  // TODO: pegar la URL "insertar mapa" de Google Maps
-  mapEmbed:
-    'https://www.google.com/maps?q=Jerez+de+la+Frontera&output=embed',
-  mapLink: 'https://maps.google.com/?q=Jerez+de+la+Frontera', // TODO
+  mapEmbed: 'https://www.google.com/maps?q=Plaza+Silos+7,+Jerez+de+la+Frontera&output=embed',
+  mapLink: 'https://maps.google.com/?q=Plaza+Silos+7,+Jerez+de+la+Frontera',
 
-  season: 'Del 20 de noviembre al 5 de enero', // TODO
-  hours: [
-    { days: 'Comidas', time: '13:30 – 18:00' }, // TODO
-    { days: 'Cenas', time: '20:30 – 01:00' }, // TODO
-  ],
-  groups: 'Grupos de 10 a 150 personas', // TODO
+  band: 'Los Quintos Mare', // grupo que actúa todos los días
+  season: 'Navidad 2026', // TODO: fechas exactas de apertura y cierre
+  hours: [] as { days: string; time: string }[], // TODO: horarios
+  drinkPromo: 'Primera copa anticipada a 6 € (marcas promocionales, no servidas en mesa)',
+
+  sponsors: ['Brugal', 'Fuzetea', 'Croft Twist', 'La Rústika', 'Gaboral'],
 
   social: {
-    instagram: 'https://instagram.com/', // TODO
-    facebook: 'https://facebook.com/', // TODO
+    instagram: '', // TODO
+    facebook: '', // TODO
   },
 };
 
@@ -55,3 +52,6 @@ export const nav = [
 export function waLink(message: string = site.whatsappDefaultMessage) {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
 }
+
+/** Enlace tel: a partir de "686 963 422" */
+export const telLink = (p: string) => `tel:+34${p.replace(/\s/g, '')}`;

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.mencantajerez.com/sitemap-index.xml
+Sitemap: https://www.zambombajerez.com/sitemap-index.xml

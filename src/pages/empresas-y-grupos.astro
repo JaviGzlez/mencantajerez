@@ -8,33 +8,33 @@ import Faq from '../components/Faq.astro';
 import { waLink } from '../data/site';
 
 const benefits = [
-  { icon: 'users', title: 'Grupos de todos los tamaños', text: 'Desde un departamento de 10 personas hasta la plantilla completa. Espacio en exclusiva para grupos grandes.' },
-  { icon: 'plate', title: 'Menú a tu medida', text: 'Ajustamos platos, bebida y horario a vuestro presupuesto y a lo que busca el equipo.' },
-  { icon: 'briefcase', title: 'Todo en regla', text: 'Factura a nombre de la empresa, presupuesto cerrado por persona y un único interlocutor.' },
-  { icon: 'music', title: 'Una experiencia, no una comida más', text: 'La zambomba rompe el hielo: se canta, se ríe y el equipo vuelve a la oficina más unido.' },
+  { icon: 'plate', title: 'Precio cerrado por persona', text: 'Menús de 40 a 50 € con entrantes, principal, postre y bodega incluida. Sin sorpresas al final.' },
+  { icon: 'users', title: 'Para todo el equipo', text: 'Menú sin gluten, vegano e infantil, para que nadie se quede fuera.' },
+  { icon: 'glass', title: 'Promociones en copas', text: 'Condiciones especiales en copas para grupos, con música y DJ para alargar la sobremesa.' },
+  { icon: 'music', title: 'Zambomba en directo', text: 'Todos los días actúa Los Quintos Mare. Se canta, se ríe y el equipo vuelve a la oficina más unido.' },
 ] as const;
 
 const faqs = [
-  { q: '¿Podemos tener el espacio en exclusiva?', a: 'Sí. A partir de cierto número de comensales podemos reservar el espacio solo para vuestra empresa. Consúltanos según la fecha.' },
-  { q: '¿Hacéis presupuesto cerrado?', a: 'Sí. Te enviamos un presupuesto por persona con todo incluido: menú, bebida y zambomba, sin sorpresas al final.' },
-  { q: '¿Se puede hacer una comida y alargar la sobremesa?', a: 'Claro, es lo más típico de una zambomba. Te contamos los horarios disponibles y cómo organizar la sobremesa.' },
-  { q: '¿Qué forma de pago aceptáis?', a: 'Transferencia, tarjeta y señal para reservar la fecha. Emitimos factura a nombre de la empresa.' },
+  { q: '¿Qué incluye el precio del menú?', a: 'Entrantes para compartir, plato principal, postre y bodega: refrescos, cerveza, vinos generosos de González Byass, tinto y Croft Twist. Además, la actuación en directo de Los Quintos Mare.' },
+  { q: '¿Tenéis opciones para personas con alergias o dietas especiales?', a: 'Sí. Tenemos Menú Celíaco, Menú Vegano y Menú Infantil. Si hay alguna otra alergia en el grupo, avísanos al reservar.' },
+  { q: '¿Se puede alargar la sobremesa?', a: 'Claro, es lo más típico de una zambomba. Hay música y DJ, y promociones en copas para grupos.' },
+  { q: '¿Cómo reservamos?', a: 'Escríbenos por WhatsApp o llámanos al 686 963 422 o al 663 598 345 con la fecha y el número de personas.' },
 ];
 ---
 <Base
   title="Comidas de empresa de Navidad en Jerez con zambomba"
-  description="Organiza la comida o cena de empresa de Navidad en Jerez con zambomba en directo. Grupos grandes, menús a medida, factura y espacio en exclusiva."
+  description="Comida o cena de empresa de Navidad en el centro de Jerez con zambomba en directo. Menús cerrados por persona con bodega, opciones sin gluten y veganas y copas para grupos."
 >
   <PageHero
     eyebrow="Empresas y grupos"
     title="La comida de empresa"
     accent="que todos recuerdan"
-    lead="Comidas y cenas de Navidad para empresas y grupos en Jerez, con zambomba en directo, menús a medida y todo organizado para que tú solo te preocupes de disfrutar."
+    lead="Comidas y cenas de Navidad para empresas y grupos en pleno centro de Jerez, con zambomba en directo, bodega incluida y promociones en copas."
     image="/img/empresas-hero.jpg"
     alt="Grupo de empresa celebrando la Navidad con zambomba"
   >
     <div class="btn-row">
-      <a class="btn btn-gold" href={waLink('Hola, quiero presupuesto para una comida de empresa de Navidad. Somos ___ personas y buscamos fecha para el ___.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir presupuesto</a>
+      <a class="btn btn-gold" href={waLink('Hola, queremos reservar una comida de empresa de Navidad. Somos ___ personas y buscamos fecha para el ___.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar para empresa</a>
       <a class="btn btn-ghost" href="/menus">Ver menús <Icon name="arrow" /></a>
     </div>
   </PageHero>
@@ -65,9 +65,9 @@ const faqs = [
         <h2>Tú nos cuentas, <em class="accent">nosotros lo montamos</em></h2>
         <ol class="flow">
           <li><strong>Nos escribes</strong> con la fecha aproximada y el número de personas.</li>
-          <li><strong>Te enviamos propuesta</strong> de menú y presupuesto cerrado por persona.</li>
-          <li><strong>Confirmas con una señal</strong> y la fecha queda bloqueada para vosotros.</li>
-          <li><strong>El día de la comida</strong> solo tenéis que venir. Del resto nos encargamos.</li>
+          <li><strong>Elegís menú</strong>: Menú 1, Menú 2 y, si hace falta, celíaco, vegano o infantil.</li>
+          <li><strong>Te confirmamos</strong> disponibilidad para ese día y la reserva queda hecha.</li>
+          <li><strong>El día de la comida</strong> solo tenéis que venir a la Plaza Silos. Del resto nos encargamos.</li>
         </ol>
       </div>
     </div>
@@ -83,7 +83,7 @@ const faqs = [
     </div>
   </section>
 
-  <CtaBand title="Reserva la fecha" accent="de tu equipo" text="Diciembre se llena rápido. Escríbenos hoy y te enviamos disponibilidad y presupuesto." />
+  <CtaBand title="Reserva la fecha" accent="de tu equipo" text="Diciembre se llena rápido. Escríbenos hoy y te confirmamos disponibilidad." />
 </Base>
 
 <style>

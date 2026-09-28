@@ -24,14 +24,14 @@ const jsonLd = {
 ---
 <Base
   title="Menús de Navidad con zambomba en Jerez"
-  description="Menús de Navidad para grupos y empresas en Jerez con zambomba en directo incluida. Consulta platos, precios por persona y reserva por WhatsApp."
+  description="Menús de Navidad en el centro de Jerez con zambomba en directo: Menú 1, Menú 2, sin gluten, vegano e infantil. Platos, precios por persona y reserva por WhatsApp."
   jsonLd={jsonLd}
 >
   <PageHero
     eyebrow="Temporada de Navidad"
     title="Nuestros menús"
     accent="de Navidad"
-    lead="Cocina jerezana para compartir, bebida y zambomba en directo. Elige tu menú y resérvalo en un solo mensaje."
+    lead="Entrantes para compartir, solomillo al oloroso, bodega incluida y zambomba en directo. Elige tu menú y resérvalo en un solo mensaje."
     image="/img/menus-hero.jpg"
     alt="Mesa de Navidad con platos típicos de Jerez"
   />
@@ -39,9 +39,9 @@ const jsonLd = {
   <section class="section">
     <div class="container">
       <ul class="notes">
-        <li><Icon name="fire" />Zambomba en directo incluida en todos los menús</li>
-        <li><Icon name="users" />{site.groups}</li>
-        <li><Icon name="check" />Adaptamos platos a alergias e intolerancias</li>
+        <li><Icon name="music" />Actuación en directo de {site.band} todos los días</li>
+        <li><Icon name="glass" />Bodega incluida en los menús de adulto</li>
+        <li><Icon name="check" />Menús sin gluten, vegano e infantil</li>
       </ul>
 
       <div class="grid grid-3 list">
@@ -50,13 +50,13 @@ const jsonLd = {
 
       <div class="extra">
         <div>
-          <h2>¿Buscas algo <em class="accent">a medida</em>?</h2>
-          <p class="muted">Para grupos grandes, comidas de empresa o celebraciones especiales preparamos un menú personalizado. Cuéntanos qué necesitas.</p>
+          <h2>¿Venís <em class="accent">en grupo</em>?</h2>
+          <p class="muted">Para comidas de empresa y grupos grandes, cuéntanos cuántos sois y qué fecha buscáis, y te informamos de disponibilidad y promociones en copas.</p>
         </div>
-        <a class="btn btn-wa" href={waLink('Hola, me gustaría un menú a medida para un grupo de ___ personas.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir menú a medida</a>
+        <a class="btn btn-wa" href={waLink('Hola, somos un grupo de ___ personas y queremos reservar para el día ___.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Consultar para grupos</a>
       </div>
 
-      <p class="small muted">Precios por persona con IVA incluido. Los menús pueden variar ligeramente según el producto de mercado. Menú infantil disponible bajo petición.</p>
+      <p class="small muted">Precios por persona. Si tienes alguna alergia o intolerancia, avísanos al reservar.<br />Promoción: {site.drinkPromo}.</p>
     </div>
   </section>
 

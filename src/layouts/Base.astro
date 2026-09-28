@@ -34,10 +34,11 @@ const business = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
   name: site.name,
+  alternateName: ['Me encanta Jerez', 'Zambomba Jerez'],
   description: site.description,
   url: Astro.site?.toString(),
-  telephone: site.phone,
-  email: site.email,
+  telephone: site.phones.map((p) => `+34 ${p}`),
+  ...(site.email ? { email: site.email } : {}),
   image: ogImage.toString(),
   servesCuisine: ['Andaluza', 'Española'],
   priceRange: '€€',
@@ -50,7 +51,7 @@ const business = {
     postalCode: site.address.postalCode,
     addressCountry: site.address.country,
   },
-  sameAs: Object.values(site.social),
+  sameAs: Object.values(site.social).filter(Boolean),
 };
 const schemas = [business, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---

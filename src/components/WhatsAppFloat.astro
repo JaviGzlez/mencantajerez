@@ -1,5 +1,5 @@
 ---
-import { site, waLink } from '../data/site';
+import { site, waLink, telLink } from '../data/site';
 import Icon from './Icon.astro';
 ---
 <!-- Botón flotante de WhatsApp (escritorio y tablet) -->
@@ -10,7 +10,7 @@ import Icon from './Icon.astro';
 
 <!-- Barra fija en móvil -->
 <div class="mobile-bar" aria-label="Contacto rápido">
-  <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="mb-call"><Icon name="phone" /> Llamar</a>
+  <a href={telLink(site.phones[0])} class="mb-call"><Icon name="phone" /> Llamar</a>
   <a href={waLink()} target="_blank" rel="noopener" class="mb-wa"><Icon name="whatsapp" /> WhatsApp</a>
 </div>
 

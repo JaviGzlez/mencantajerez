@@ -18,33 +18,33 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const pillars = [
-  { icon: 'music', title: 'Zambomba en directo', text: 'Villancicos flamencos, cante, palmas y el compás de la zambomba alrededor de la candela.', img: '/img/pilar-zambomba.jpg' },
-  { icon: 'plate', title: 'Cocina jerezana', text: 'Menús de temporada con producto de la tierra, pensados para compartir en buena compañía.', img: '/img/pilar-cocina.jpg' },
-  { icon: 'glass', title: 'Espíritu de bodega', text: 'Un patio con luz de farol, botas de vino y ese ambiente que solo tiene Jerez en Navidad.', img: '/img/pilar-patio.jpg' },
+  { icon: 'music', title: 'Zambomba en directo', text: 'Todos los días actúa nuestro grupo, Los Quintos Mare: villancicos flamencos, cante, palmas y compás.', img: '/img/pilar-zambomba.jpg' },
+  { icon: 'plate', title: 'Menús de Navidad', text: 'Entrantes para compartir, solomillo al oloroso y bodega incluida. También sin gluten, vegano e infantil.', img: '/img/pilar-cocina.jpg' },
+  { icon: 'glass', title: 'El mejor ambiente', text: 'Música, DJ y promociones en copas para grupos, en pleno centro de Jerez.', img: '/img/pilar-ambiente.jpg' },
 ] as const;
 
 const steps = [
   { n: '01', title: 'Elige tu menú', text: 'Mira nuestros menús de Navidad y quédate con el que más encaje con tu grupo.' },
-  { n: '02', title: 'Reserva la fecha', text: 'Escríbenos por WhatsApp con el día y el número de personas. Te confirmamos al momento.' },
-  { n: '03', title: 'Vive la zambomba', text: 'Llegáis, os sentáis y nosotros nos encargamos del resto: comida, candela y villancicos.' },
+  { n: '02', title: 'Reserva la fecha', text: 'Escríbenos por WhatsApp con el día y el número de personas. Te confirmamos disponibilidad.' },
+  { n: '03', title: 'Vive la zambomba', text: 'Venid a la Plaza Silos y disfrutad: comida, bodega y zambomba en directo.' },
 ];
 
 const gallery = [
-  { src: '/img/galeria/01.jpg', alt: 'Candela encendida en el patio' },
+  { src: '/img/galeria/01.jpg', alt: 'Ambiente de zambomba en Mencanta Jerez' },
   { src: '/img/galeria/02.jpg', alt: 'Cantaores y palmas durante la zambomba' },
   { src: '/img/galeria/03.jpg', alt: 'Guitarra flamenca en directo' },
-  { src: '/img/galeria/04.jpg', alt: 'Botas de vino en la bodega' },
-  { src: '/img/galeria/05.jpg', alt: 'Grupo disfrutando de la zambomba en el patio' },
+  { src: '/img/galeria/04.jpg', alt: 'Mesa de Navidad en Mencanta Jerez' },
+  { src: '/img/galeria/05.jpg', alt: 'Grupo disfrutando de la zambomba' },
 ];
 ---
 <Base overlayHeader>
   <!-- ═════════ HERO ═════════ -->
   <section class="hero on-dark">
-    <div class="hero-bg"><Photo src="/img/hero.jpg" alt="Zambomba alrededor de la candela en un patio de Jerez" eager /></div>
+    <div class="hero-bg"><Photo src="/img/hero.jpg" alt="Zambomba en directo en Mencanta Jerez" eager /></div>
     <div class="container hero-inner">
-      <span class="eyebrow">Comidas y cenas de Navidad · Jerez</span>
+      <span class="eyebrow">Plaza Silos · Centro de Jerez</span>
       <h1>La Navidad<br />se vive en <em class="accent">Jerez</em></h1>
-      <p class="lead">Menús de Navidad para grupos y empresas con zambomba en directo, villancicos flamencos y la calidez de la candela.</p>
+      <p class="lead">Zambombas en directo todos los días, menús de Navidad y el mejor ambiente en pleno centro de Jerez.</p>
       <div class="btn-row">
         <a class="btn" href="/menus">Ver menús <Icon name="arrow" /></a>
         <a class="btn btn-ghost" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar fecha</a>
@@ -52,9 +52,9 @@ const gallery = [
     </div>
     <div class="container">
       <ul class="facts">
-        <li><Icon name="calendar" /><span><strong>Temporada</strong>{site.season}</span></li>
-        <li><Icon name="users" /><span><strong>Grupos</strong>{site.groups}</span></li>
-        <li><Icon name="fire" /><span><strong>Incluido</strong>Zambomba en directo en todos los menús</span></li>
+        <li><Icon name="pin" /><span><strong>Dónde</strong>{site.address.street}, centro de Jerez</span></li>
+        <li><Icon name="music" /><span><strong>Todos los días</strong>Zambomba en directo con {site.band}</span></li>
+        <li><Icon name="fire" /><span><strong>Entrada gratuita</strong>A las actuaciones y zambombas de la programación</span></li>
       </ul>
     </div>
   </section>
@@ -66,11 +66,11 @@ const gallery = [
         <span class="eyebrow">Mencanta Jerez</span>
         <h2>Una tradición <em class="accent">que se siente</em></h2>
         <p class="lead">La zambomba jerezana es mucho más que música. Es encuentro, es raíz, es la mesa compartida y el latido de una ciudad que en Navidad brilla con luz propia.</p>
-        <p class="muted">Aquí la vivimos como se ha vivido siempre en los patios de vecinos: con buena comida, villancicos de toda la vida y el fuego en el centro. Tú solo tienes que traer las ganas.</p>
+        <p class="muted">En Mencanta Jerez la vivimos cada día en la Plaza Silos, con buena comida, villancicos de toda la vida y nuestro grupo, Los Quintos Mare, poniendo el compás. Tú solo tienes que traer las ganas.</p>
         <a class="link-arrow" href="/la-zambomba">Conoce la experiencia <Icon name="arrow" /></a>
       </div>
       <div class="intro-img reveal">
-        <Photo src="/img/intro.jpg" alt="Patio jerezano iluminado durante la zambomba" />
+        <Photo src="/img/intro.jpg" alt="Zambomba en Mencanta Jerez" />
       </div>
     </div>
 
@@ -115,7 +115,7 @@ const gallery = [
       <div class="section-head center">
         <span class="eyebrow">Nuestros menús</span>
         <h2>Menús de Navidad <em class="accent">con zambomba</em></h2>
-        <p class="lead">Todos incluyen la zambomba en directo. Elige el tuyo y resérvalo en un mensaje.</p>
+        <p class="lead">Con bodega incluida y zambomba en directo. También sin gluten, vegano e infantil. Elige el tuyo y resérvalo en un mensaje.</p>
       </div>
       <div class="grid grid-3 menus">
         {menus.map((m) => <MenuCard menu={m} compact />)}
@@ -130,12 +130,12 @@ const gallery = [
     <div class="split-body">
       <span class="eyebrow">Empresas y grupos</span>
       <h2>La comida de empresa <em class="accent">que todos recuerdan</em></h2>
-      <p class="lead">Olvídate del restaurante de siempre. Una comida de Navidad con zambomba une al equipo como ninguna otra cosa: se come, se canta y se brinda.</p>
+      <p class="lead">Olvídate del restaurante de siempre. Una comida de Navidad con zambomba en pleno centro de Jerez une al equipo como ninguna otra cosa: se come, se canta y se brinda.</p>
       <ul class="checks">
-        <li><Icon name="check" />Espacio para grupos de hasta 150 personas</li>
-        <li><Icon name="check" />Factura a nombre de la empresa</li>
-        <li><Icon name="check" />Menús adaptables a tu presupuesto</li>
-        <li><Icon name="check" />Opción de espacio en exclusiva</li>
+        <li><Icon name="check" />Menús cerrados por persona con bodega incluida</li>
+        <li><Icon name="check" />Opciones sin gluten, vegana e infantil</li>
+        <li><Icon name="check" />Zambomba en directo con Los Quintos Mare</li>
+        <li><Icon name="check" />Promociones en copas para grupos</li>
       </ul>
       <a class="btn btn-gold" href="/empresas-y-grupos">Soluciones para empresas <Icon name="arrow" /></a>
     </div>

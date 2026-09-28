@@ -3,25 +3,25 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
-import { site, waLink } from '../data/site';
+import { site, waLink, telLink } from '../data/site';
 
 const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Contacto y reservas" description={`Reserva tu comida o cena de Navidad con zambomba en Jerez. Escríbenos por WhatsApp o llámanos. ${site.address.street}, ${site.address.city}.`}>
+<Base title="Contacto y reservas" description={`Reserva tu comida o cena de Navidad con zambomba en Mencanta Jerez, ${site.address.street}, centro de Jerez. Llámanos al ${site.phones.join(' o ')} o escríbenos por WhatsApp.`}>
   <PageHero
     eyebrow="Contacto"
     title="Hablemos de"
     accent="tu reserva"
     lead="La forma más rápida de reservar es por WhatsApp. Rellena el formulario y te abrimos la conversación con todo ya escrito."
     image="/img/contacto-hero.jpg"
-    alt="Patio de Jerez iluminado de noche"
+    alt="Mencanta Jerez en la Plaza Silos"
   />
 
   <section class="section">
     <div class="container grid-contact">
       <form class="card form" data-wa-form>
         <h2>Solicitar reserva</h2>
-        <p class="muted">Te contestamos en el mismo día.</p>
+        <p class="muted">Te contestamos lo antes posible.</p>
         <div class="row">
           <label>Nombre<input name="nombre" required autocomplete="name" /></label>
           <label><span class="lt">Empresa o grupo <span>(opcional)</span></span><input name="empresa" autocomplete="organization" /></label>
@@ -51,10 +51,10 @@ const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a,
       <aside class="info">
         <ul>
           <li><span class="ic"><Icon name="whatsapp" /></span><div><strong>WhatsApp</strong><a href={waLink()} target="_blank" rel="noopener">Escríbenos directamente</a></div></li>
-          <li><span class="ic"><Icon name="phone" /></span><div><strong>Teléfono</strong><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></div></li>
-          <li><span class="ic"><Icon name="mail" /></span><div><strong>Email</strong><a href={`mailto:${site.email}`}>{site.email}</a></div></li>
-          <li><span class="ic"><Icon name="pin" /></span><div><strong>Dirección</strong><span>{site.address.street}, {site.address.postalCode} {site.address.city}</span><a href={site.mapLink} target="_blank" rel="noopener">Cómo llegar →</a></div></li>
-          <li><span class="ic"><Icon name="clock" /></span><div><strong>Horarios</strong>{site.hours.map((h) => <span>{h.days}: {h.time}</span>)}<span class="muted">{site.season}</span></div></li>
+          <li><span class="ic"><Icon name="phone" /></span><div><strong>Teléfonos</strong>{site.phones.map((p) => <a href={telLink(p)}>{p}</a>)}</div></li>
+          {site.email && <li><span class="ic"><Icon name="mail" /></span><div><strong>Email</strong><a href={`mailto:${site.email}`}>{site.email}</a></div></li>}
+          <li><span class="ic"><Icon name="pin" /></span><div><strong>Dirección</strong><span>{site.address.street}, {site.address.city}</span><a href={site.mapLink} target="_blank" rel="noopener">Cómo llegar →</a></div></li>
+          <li><span class="ic"><Icon name="music" /></span><div><strong>Zambombas</strong><span>Actuación en directo todos los días de {site.band}</span><span class="muted">Entrada gratuita a las actuaciones de nuestra programación</span></div>{site.hours.length > 0 && <div>{site.hours.map((h) => <span>{h.days}: {h.time}</span>)}</div>}</li>
         </ul>
         <div class="map">
           <iframe src={site.mapEmbed} title="Mapa de ubicación" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

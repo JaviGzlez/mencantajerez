@@ -13,7 +13,7 @@ const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Nu
   {m.tag && <span class="tag">{m.tag}</span>}
   <header>
     <h3>{m.name}</h3>
-    <p class="price"><strong>{fmt(m.price)} €</strong> <span>por persona · IVA incl.</span></p>
+    <p class="price"><strong>{fmt(m.price)} €</strong> <span>por persona</span></p>
     <p class="summary">{m.summary}</p>
   </header>
 
@@ -27,7 +27,7 @@ const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Nu
       ))}
       {m.drinks && (
         <div class="course">
-          <h4>Bebida</h4>
+          <h4>Bodega</h4>
           <p>{m.drinks}</p>
         </div>
       )}
