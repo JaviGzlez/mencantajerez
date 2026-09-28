@@ -7,7 +7,7 @@ const year = new Date().getFullYear();
 <footer class="site-footer on-dark">
   <div class="container top">
     <div class="about">
-      <a href="/" class="brand" aria-label="Inicio"><Logo /></a>
+      <a href="/" class="brand" aria-label="Inicio"><Logo eager={false} /></a>
       <p>Zambombas en directo todos los días y menús de Navidad en pleno centro de Jerez. Entrada gratuita a las actuaciones.</p>
       {(site.social.instagram || site.social.facebook) && (
         <div class="social">
@@ -54,7 +54,8 @@ const year = new Date().getFullYear();
       © {year} {site.name} ·
       <a href="/aviso-legal">Aviso legal</a> ·
       <a href="/privacidad">Privacidad</a> ·
-      <a href="/cookies">Cookies</a>
+      <a href="/cookies">Cookies</a> ·
+      <a href="/cookies" data-cookie-settings>Configurar cookies</a>
     </p>
   </div>
 </footer>
@@ -72,7 +73,7 @@ const year = new Date().getFullYear();
     grid-template-columns: 1.4fr 1fr 1.2fr 1fr;
     padding-bottom: 48px; border-bottom: 1px solid var(--line-light);
   }
-  .brand { display: inline-block; text-decoration: none; margin-bottom: 18px; }
+  .brand { display: block; height: 76px; width: fit-content; text-decoration: none; margin-bottom: 18px; }
   .about p { color: rgba(246, 238, 225, 0.7); max-width: 34ch; }
   .col-title {
     font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;

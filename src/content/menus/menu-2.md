@@ -4,6 +4,7 @@ price: 50
 order: 2
 featured: true
 tag: El más completo
+poster: /img/menus/menu-2.jpg
 summary: Más entrantes, con jamón ibérico y langostinos, y torrija de brioche de postre.
 courses:
   - title: Entrantes

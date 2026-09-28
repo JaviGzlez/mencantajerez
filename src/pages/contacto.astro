@@ -1,52 +1,24 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
+import ReservaForm from '../components/ReservaForm.astro';
+import MapEmbed from '../components/MapEmbed.astro';
 import { site, waLink, telLink } from '../data/site';
-
-const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base title="Contacto y reservas" description={`Reserva tu comida o cena de Navidad con zambomba en Mencanta Jerez, ${site.address.street}, centro de Jerez. Llámanos al ${site.phones.join(' o ')} o escríbenos por WhatsApp.`}>
   <PageHero
     eyebrow="Contacto"
     title="Hablemos de"
     accent="tu reserva"
-    lead="La forma más rápida de reservar es por WhatsApp. Rellena el formulario y te abrimos la conversación con todo ya escrito."
+    lead="Rellena el formulario y te abrimos WhatsApp con tu reserva ya escrita. También puedes llamarnos."
     image="/img/contacto-hero.jpg"
     alt="Mencanta Jerez en la Plaza Silos"
   />
 
   <section class="section">
     <div class="container grid-contact">
-      <form class="card form" data-wa-form>
-        <h2>Solicitar reserva</h2>
-        <p class="muted">Te contestamos lo antes posible.</p>
-        <div class="row">
-          <label>Nombre<input name="nombre" required autocomplete="name" /></label>
-          <label><span class="lt">Empresa o grupo <span>(opcional)</span></span><input name="empresa" autocomplete="organization" /></label>
-        </div>
-        <div class="row">
-          <label>Fecha deseada<input name="fecha" type="date" required /></label>
-          <label>Nº de personas<input name="personas" type="number" min="1" inputmode="numeric" required /></label>
-        </div>
-        <div class="row">
-          <label>Servicio
-            <select name="servicio">
-              <option>Comida</option><option>Cena</option><option>Aún no lo sé</option>
-            </select>
-          </label>
-          <label>Menú
-            <select name="menu">
-              <option>Aún no lo sé</option>
-              {menus.map((m) => <option>{m.data.name} ({m.data.price} €)</option>)}
-            </select>
-          </label>
-        </div>
-        <label><span class="lt">Comentarios <span>(alergias, niños, necesidades…)</span></span><textarea name="comentarios" rows="4"></textarea></label>
-        <button class="btn btn-wa" type="submit"><Icon name="whatsapp" /> Enviar por WhatsApp</button>
-        <p class="legal">Al enviar se abrirá WhatsApp con tu mensaje. No guardamos tus datos en esta web. <a href="/privacidad">Privacidad</a>.</p>
-      </form>
+      <ReservaForm />
 
       <aside class="info">
         <ul>
@@ -54,57 +26,23 @@ const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a,
           <li><span class="ic"><Icon name="phone" /></span><div><strong>Teléfonos</strong>{site.phones.map((p) => <a href={telLink(p)}>{p}</a>)}</div></li>
           {site.email && <li><span class="ic"><Icon name="mail" /></span><div><strong>Email</strong><a href={`mailto:${site.email}`}>{site.email}</a></div></li>}
           <li><span class="ic"><Icon name="pin" /></span><div><strong>Dirección</strong><span>{site.address.street}, {site.address.city}</span><a href={site.mapLink} target="_blank" rel="noopener">Cómo llegar →</a></div></li>
-          <li><span class="ic"><Icon name="music" /></span><div><strong>Zambombas</strong><span>Actuación en directo todos los días de {site.band}</span><span class="muted">Entrada gratuita a las actuaciones de nuestra programación</span></div>{site.hours.length > 0 && <div>{site.hours.map((h) => <span>{h.days}: {h.time}</span>)}</div>}</li>
+          <li><span class="ic"><Icon name="music" /></span><div><strong>Zambombas</strong><span>Actuación en directo todos los días de {site.band}</span><span class="muted">Entrada gratuita a las actuaciones de nuestra programación</span>{site.hours.map((h) => <span>{h.days}: {h.time}</span>)}</div></li>
+          <li><span class="ic"><Icon name="instagram" /></span><div><strong>Síguenos</strong><a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a><a href={site.social.facebook} target="_blank" rel="noopener">Facebook</a></div></li>
         </ul>
-        <div class="map">
-          <iframe src={site.mapEmbed} title="Mapa de ubicación" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+        <MapEmbed />
       </aside>
     </div>
   </section>
 </Base>
 
-<script define:vars={{ phone: site.whatsapp }}>
-  const form = document.querySelector('[data-wa-form]');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const d = Object.fromEntries(new FormData(form));
-    const fecha = d.fecha ? new Date(d.fecha + 'T12:00').toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }) : '';
-    const lines = [
-      `Hola, soy ${d.nombre}${d.empresa ? ` (${d.empresa})` : ''}.`,
-      `Quiero reservar para el ${fecha}, ${d.personas} personas.`,
-      `Servicio: ${d.servicio}. Menú: ${d.menu}.`,
-      d.comentarios ? `Comentarios: ${d.comentarios}` : '',
-    ].filter(Boolean);
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
-  });
-</script>
-
 <style>
-  .grid-contact { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
-  .form { padding: clamp(26px, 4vw, 44px); overflow: visible; }
-  .form h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin-bottom: 4px; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  label { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; font-weight: 600; font-size: 0.92rem; color: var(--ink-900); }
-  .lt span { font-weight: 400; color: var(--ink-500); }
-  input, select, textarea {
-    font: inherit; font-weight: 400; font-size: 1rem; color: var(--ink-900);
-    padding: 12px 14px; min-height: 48px; border: 1px solid rgba(74, 13, 24, 0.22); border-radius: var(--radius-sm);
-    background: var(--cream-50); transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--wine-700); box-shadow: 0 0 0 3px rgba(107, 20, 36, 0.12); }
-  textarea { resize: vertical; }
-  .form .btn { width: 100%; margin-top: 4px; }
-  .legal { font-size: 0.84rem; color: var(--ink-500); margin: 14px 0 0; text-align: center; }
+  .grid-contact { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
   .info ul { list-style: none; margin: 0 0 28px; padding: 0; }
   .info li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-  .info li div { display: flex; flex-direction: column; gap: 2px; color: var(--ink-700); }
+  .info li div { display: flex; flex-direction: column; gap: 2px; color: var(--ink-700); min-width: 0; }
   .info strong { color: var(--ink-900); font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; }
   .info a { color: var(--wine-700); text-decoration: none; font-weight: 500; }
   .ic { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 12px; background: var(--cream-100); color: var(--wine-700); }
   .ic :global(svg) { width: 21px; height: 21px; }
-  .map { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 3; }
-  .map iframe { width: 100%; height: 100%; border: 0; display: block; }
-  @media (max-width: 900px) { .grid-contact { grid-template-columns: 1fr; } }
-  @media (max-width: 560px) { .row { grid-template-columns: 1fr; gap: 0; } }
+  @media (max-width: 960px) { .grid-contact { grid-template-columns: 1fr; } }
 </style>

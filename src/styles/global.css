@@ -19,7 +19,7 @@
   --line-light: rgba(255, 240, 220, 0.14);
   --wa: #25d366;
 
-  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-display: 'Playfair Display Variable', 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --radius: 14px;
@@ -210,4 +210,9 @@ em.accent, .accent { font-style: italic; color: var(--wine-700); }
 
 @media (max-width: 560px) {
   .btn { white-space: normal; text-align: center; }
+}
+
+@media (max-width: 700px) {
+  .prose table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: normal; }
+  .prose th, .prose td { min-width: 110px; }
 }

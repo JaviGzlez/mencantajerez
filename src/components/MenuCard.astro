@@ -6,7 +6,7 @@ import Icon from './Icon.astro';
 interface Props { menu: CollectionEntry<'menus'>; compact?: boolean }
 const { menu, compact = false } = Astro.props;
 const m = menu.data;
-const msg = `Hola, quiero información del ${m.name} (${m.price} €/pers.) para ___ personas el día ___.`;
+const msg = [`Hola, quiero reservar el *${m.name}* (${m.price} €/pers.)`, '', '*Nombre:* ', '*Fecha:* ', '*Turno (comida/cena):* ', '*Personas:* '].join('\n');
 const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2 });
 ---
 <article class:list={['menu-card', { featured: m.featured, compact }]} id={menu.id}>
@@ -45,6 +45,9 @@ const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Nu
     <div class="actions">
       <a class="btn btn-wa" href={waLink(msg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Reservar este menú</a>
       {compact && <a class="link-arrow" href={`/menus#${menu.id}`}>Ver platos <Icon name="arrow" /></a>}
+      {!compact && m.poster && (
+        <button type="button" class="link-arrow poster-btn" data-poster={m.poster} data-title={`Cartel del ${m.name}`}>Ver cartel</button>
+      )}
     </div>
   </footer>
 </article>
@@ -84,6 +87,7 @@ const fmt = (n: number) => n.toLocaleString('es-ES', { minimumFractionDigits: Nu
   .includes li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.97rem; padding: 3px 0; color: var(--ink-700); }
   .includes :global(svg) { width: 18px; height: 18px; color: var(--wine-700); flex: none; margin-top: 4px; }
   footer { margin-top: auto; }
+  .poster-btn { background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   .min { display: flex; gap: 8px; align-items: center; font-size: 0.93rem; color: var(--ink-500); margin-bottom: 16px; }
   .min :global(svg) { width: 18px; height: 18px; }
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }

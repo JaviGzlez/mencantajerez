@@ -2,6 +2,7 @@
 name: Menú Vegano
 price: 40
 order: 4
+poster: /img/menus/menu-vegano.jpg
 summary: Cocina 100 % vegetal con el sabor del oloroso de Jerez.
 courses:
   - title: Entrantes

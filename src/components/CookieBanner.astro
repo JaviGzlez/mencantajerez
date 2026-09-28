@@ -1,0 +1,64 @@
+---
+/**
+ * Aviso de cookies.
+ * La web no usa cookies propias de seguimiento. Lo único de terceros es
+ * el mapa de Google Maps, que solo se carga si el visitante acepta.
+ * Guarda la elección en localStorage ('mj-consent': 'all' | 'necessary')
+ * y avisa al resto de la página con el evento 'mj-consent'.
+ * Cualquier enlace con data-cookie-settings vuelve a abrir el aviso.
+ */
+---
+<div class="cookie" data-cookie role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+  <div class="cookie-inner">
+    <p>
+      <strong>Usamos cookies</strong> Solo las técnicas imprescindibles para que la web funcione. Si aceptas, también cargaremos contenido de terceros,
+      como el mapa de Google Maps, que puede instalar sus propias cookies. <a href="/cookies">Más información</a>
+    </p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-outline small" data-cookie-reject>Solo necesarias</button>
+      <button type="button" class="btn small" data-cookie-accept>Aceptar todas</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const KEY = 'mj-consent';
+  const box = document.querySelector<HTMLElement>('[data-cookie]')!;
+  const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+  const save = (v: string) => {
+    try { localStorage.setItem(KEY, v); } catch {}
+    box.hidden = true;
+    document.documentElement.dataset.consent = v;
+    window.dispatchEvent(new CustomEvent('mj-consent', { detail: v }));
+  };
+  const current = read();
+  if (current) document.documentElement.dataset.consent = current;
+  else box.hidden = false;
+
+  box.querySelector('[data-cookie-accept]')!.addEventListener('click', () => save('all'));
+  box.querySelector('[data-cookie-reject]')!.addEventListener('click', () => save('necessary'));
+  document.querySelectorAll('[data-cookie-settings]').forEach((el) =>
+    el.addEventListener('click', (e) => { e.preventDefault(); box.hidden = false; }),
+  );
+</script>
+
+<style>
+  .cookie {
+    position: fixed; z-index: 80; left: 16px; right: 16px; bottom: 16px;
+    max-width: 760px; margin-inline: auto;
+    background: #fff; color: var(--ink-900); border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(31, 5, 9, 0.35); border: 1px solid var(--line);
+  }
+  .cookie-inner { display: flex; align-items: center; gap: 20px; padding: 18px 20px; }
+  .cookie p { margin: 0; font-size: 0.92rem; line-height: 1.5; color: var(--ink-700); }
+  .cookie strong { display: block; color: var(--ink-900); font-size: 1rem; margin-bottom: 2px; }
+  .cookie a { color: var(--wine-700); }
+  .cookie-actions { display: flex; gap: 10px; flex: none; }
+  .cookie :global(.btn.small) { min-height: 42px; padding: 8px 18px; font-size: 0.9rem; }
+  @media (max-width: 700px) {
+    .cookie { left: 10px; right: 10px; bottom: calc(80px + env(safe-area-inset-bottom)); }
+    .cookie-inner { flex-direction: column; align-items: stretch; gap: 14px; }
+    .cookie-actions { flex-direction: column-reverse; }
+    .cookie-actions .btn { width: 100%; }
+  }
+</style>

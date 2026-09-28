@@ -2,6 +2,7 @@
 name: Menú Celíaco
 price: 45
 order: 3
+poster: /img/menus/menu-celiaco.jpg
 summary: Menú sin gluten para que nadie se quede sin su comida de Navidad.
 courses:
   - title: Entrantes

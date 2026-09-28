@@ -6,6 +6,8 @@ import MenuCard from '../components/MenuCard.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { site, waLink } from '../data/site';
+import ReservaForm from '../components/ReservaForm.astro';
+import PosterLightbox from '../components/PosterLightbox.astro';
 
 const menus = (await getCollection('menus', ({ data }) => data.active)).sort((a, b) => a.data.order - b.data.order);
 
@@ -60,7 +62,36 @@ const jsonLd = {
     </div>
   </section>
 
-  <CtaBand />
+  <section class="section tight bg-cream">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Carteles</span>
+        <h2>Nuestros menús <em class="accent">en cartel</em></h2>
+        <p class="lead">Pulsa para verlos en grande o compartirlos con tu grupo.</p>
+      </div>
+      <ul class="posters">
+        {menus.filter((m) => m.data.poster).map((m) => (
+          <li>
+            <button type="button" data-poster={m.data.poster} data-title={`Cartel del ${m.data.name}`} aria-label={`Ver cartel del ${m.data.name}`}>
+              <picture>
+                <source srcset={m.data.poster!.replace(/\.jpe?g$/, '.webp')} type="image/webp" />
+                <img src={m.data.poster} alt={`Cartel del ${m.data.name}, ${m.data.price} € por persona`} width="1024" height="1280" loading="lazy" decoding="async" />
+              </picture>
+              <span>{m.data.name} · {m.data.price} €</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="reservar">
+    <div class="container narrow">
+      <ReservaForm title="Reserva tu menú" />
+    </div>
+  </section>
+
+  <PosterLightbox />
 </Base>
 
 <style>
@@ -76,4 +107,12 @@ const jsonLd = {
   .extra h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
   .extra p { margin: 0; max-width: 56ch; }
   .small { font-size: 0.88rem; text-align: center; margin-top: 28px; }
+  .posters { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+  .posters button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; text-align: center; font: inherit; }
+  .posters img { width: 100%; height: auto; border-radius: var(--radius-sm); box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; }
+  .posters button:hover img { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(34, 21, 15, 0.2); }
+  .posters span { display: block; margin-top: 10px; font-weight: 600; color: var(--wine-800); font-size: 0.95rem; }
+  @media (max-width: 640px) { .notes { flex-direction: column; align-items: flex-start; max-width: 420px; margin-inline: auto; } }
+  @media (max-width: 1000px) { .posters { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .posters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
 </style>

@@ -2,6 +2,7 @@
 name: Menú Infantil
 price: 20
 order: 5
+poster: /img/menus/menu-infantil.jpg
 summary: Para los más pequeños de la casa.
 courses:
   - title: Entrantes

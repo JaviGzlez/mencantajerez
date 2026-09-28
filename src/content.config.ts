@@ -22,7 +22,8 @@ const menus = defineCollection({
     ),
     drinks: z.string().optional(),
     includes: z.array(z.string()).default([]),
-    image: z.string().optional(), // ruta en /public, ej. /img/menus/tradicion.jpg
+    image: z.string().optional(),
+    poster: z.string().optional(), // cartel del menú, ej. /img/menus/menu-1.jpg (se sirve también .webp)
     active: z.boolean().default(true),
   }),
 });

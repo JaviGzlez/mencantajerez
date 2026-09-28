@@ -32,7 +32,7 @@ const exists = fs.existsSync(path.join(process.cwd(), 'public', src));
   />
 ) : (
   <div class:list={['photo', 'photo-ph', cls]} role="img" aria-label={alt}>
-    <span>Foto pendiente<br /><code>public{src}</code></span>
+    {import.meta.env.DEV && <span>Foto pendiente<br /><code>public{src}</code></span>}
   </div>
 )}
 

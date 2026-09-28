@@ -33,8 +33,8 @@ export const site = {
   sponsors: ['Brugal', 'Fuzetea', 'Croft Twist', 'La Rústika', 'Gaboral'],
 
   social: {
-    instagram: '', // TODO
-    facebook: '', // TODO
+    instagram: 'https://www.instagram.com/mencanta_jerez_navidad/',
+    facebook: 'https://www.facebook.com/mencantajerezz',
   },
 };
 

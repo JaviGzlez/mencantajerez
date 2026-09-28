@@ -1,0 +1,44 @@
+---
+// Mapa de Google que solo se carga con el consentimiento de cookies.
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<div class="map" data-map data-src={site.mapEmbed}>
+  <div class="map-ph">
+    <Icon name="pin" />
+    <p><strong>{site.address.street}</strong><br />{site.address.city}</p>
+    <div class="map-actions">
+      <button type="button" class="btn btn-outline small" data-map-load>Ver mapa aquí</button>
+      <a class="link-arrow" href={site.mapLink} target="_blank" rel="noopener">Abrir en Google Maps <Icon name="arrow" /></a>
+    </div>
+    <p class="map-note">Al cargar el mapa, Google puede instalar cookies.</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((box) => {
+    const load = () => {
+      if (box.querySelector('iframe')) return;
+      const f = document.createElement('iframe');
+      f.src = box.dataset.src!;
+      f.title = 'Mapa de ubicación de Mencanta Jerez';
+      f.loading = 'lazy';
+      f.referrerPolicy = 'no-referrer-when-downgrade';
+      box.replaceChildren(f);
+    };
+    if (document.documentElement.dataset.consent === 'all') load();
+    window.addEventListener('mj-consent', (e) => { if ((e as CustomEvent).detail === 'all') load(); });
+    box.querySelector('[data-map-load]')?.addEventListener('click', load);
+  });
+</script>
+
+<style>
+  .map { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 3; background: var(--cream-100); }
+  .map :global(iframe) { width: 100%; height: 100%; border: 0; display: block; }
+  .map-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; padding: 20px; }
+  .map-ph > :global(svg) { width: 34px; height: 34px; color: var(--wine-700); }
+  .map-ph p { margin: 0; color: var(--ink-700); }
+  .map-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 20px; margin-top: 6px; }
+  .map :global(.btn.small) { min-height: 42px; padding: 8px 18px; font-size: 0.9rem; }
+  .map-note { font-size: 0.8rem; color: var(--ink-500) !important; }
+</style>

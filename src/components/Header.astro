@@ -73,9 +73,12 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
     backdrop-filter: blur(10px);
     box-shadow: 0 1px 0 var(--line-light), 0 10px 30px rgba(0, 0, 0, 0.18);
   }
+  /* backdrop-filter crearía un contenedor para el panel fijo del menú móvil: se quita al abrirlo */
+  .site-header.menu-open { backdrop-filter: none; background: var(--wine-900); }
   .bar { display: flex; align-items: center; gap: 28px; min-height: 84px; transition: min-height 0.3s; }
   .scrolled .bar { min-height: 70px; }
-  .brand { text-decoration: none; flex: none; }
+  .brand { text-decoration: none; flex: none; display: block; height: 58px; transition: height 0.3s; }
+  .scrolled .brand { height: 48px; }
 
   .nav { margin-left: auto; }
   .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
@@ -98,8 +101,8 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
     place-items: center;
   }
   .burger :global(svg) { width: 24px; height: 24px; }
-  .burger .i-close, .burger[aria-expanded='true'] .i-open { display: none; }
-  .burger[aria-expanded='true'] .i-close { display: block; }
+  .burger :global(.i-close), .burger[aria-expanded='true'] :global(.i-open) { display: none; }
+  .burger[aria-expanded='true'] :global(.i-close) { display: block; }
 
   .mobile-nav {
     position: fixed; inset: 70px 0 0 0; background: var(--wine-900);
@@ -118,5 +121,6 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
     .nav, .cta { display: none; }
     .burger { display: grid; }
     .bar { min-height: 70px; }
+    .brand, .scrolled .brand { height: 46px; }
   }
 </style>

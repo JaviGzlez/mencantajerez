@@ -2,6 +2,7 @@
 name: Menú 1
 price: 45
 order: 1
+poster: /img/menus/menu-1.jpg
 summary: Entrantes jerezanos para compartir y solomillo al oloroso.
 courses:
   - title: Entrantes
