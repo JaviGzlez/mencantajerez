@@ -1,0 +1,120 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  overlayHeader?: boolean;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  image = '/img/og.jpg',
+  overlayHeader = false,
+  type = 'website',
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} · Comidas de Navidad con zambomba en Jerez`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+// Datos estructurados del negocio (Google los usa para la ficha local)
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: site.name,
+  alternateName: ['Me encanta Jerez', 'Zambomba Jerez'],
+  description: site.description,
+  url: Astro.site?.toString(),
+  telephone: site.phone,
+  email: site.email,
+  image: ogImage.toString(),
+  servesCuisine: ['Andaluza', 'Española'],
+  priceRange: '€€',
+  acceptsReservations: true,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.country,
+  },
+  sameAs: Object.values(site.social),
+};
+const schemas = [business, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#2e070e" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`Blog de ${site.name}`} href="/rss.xml" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..600&family=Source+Sans+3:wght@400;500;600&display=swap"
+    />
+
+    <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+  </head>
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+    <Header overlay={overlayHeader} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+
+    <script>
+      // Animación de entrada al hacer scroll
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        }),
+        { rootMargin: '0px 0px -8% 0px' },
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute; left: 12px; top: -60px; z-index: 100;
+    background: var(--gold-400); color: var(--wine-950); padding: 10px 16px; border-radius: 8px;
+    font-weight: 600; text-decoration: none;
+  }
+  .skip:focus { top: 12px; }
+</style>

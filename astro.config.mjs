@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// TODO: cambiar por el dominio definitivo antes de publicar
+// Dominio principal. zambombajerez.com y zambombajerez.es redirigen aquí desde Vercel
 export default defineConfig({
-  site: 'https://www.mencantajerez.com',
+  site: 'https://www.zambombajerez.com',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
 });
