@@ -39,6 +39,16 @@ export const site = {
 
   sponsors: ['Brugal', 'Fuzetea', 'Croft Twist', 'La Rústika', 'Gaboral'],
 
+  // Titular de la web (aviso legal, privacidad y cookies)
+  legal: {
+    company: 'Bambú Restaurante y Copas, S.L.U.',
+    cif: 'B67873281',
+    phone: '609 41 90 23',
+    email: 'hola@grupobambu.es',
+    address: '', // TODO: domicilio social completo (calle, n.º, CP, ciudad)
+    registry: '', // opcional: datos del Registro Mercantil
+  },
+
   social: {
     instagram: 'https://www.instagram.com/mencanta_jerez_navidad/',
     facebook: 'https://www.facebook.com/mencantajerezz',

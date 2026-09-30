@@ -1,7 +1,39 @@
 ---
 import Legal from '../layouts/Legal.astro';
+import LegalHolder from '../components/LegalHolder.astro';
+import { site } from '../data/site';
+const L = site.legal;
 ---
 <Legal title="Política de privacidad">
-  <!-- TODO: sustituir por el texto legal real del titular (nombre/razón social, NIF, domicilio, email). -->
-  <p>Texto pendiente de completar con los datos del titular del negocio.</p>
+  <p><em>Última actualización: septiembre de 2026.</em></p>
+
+  <h2>1. Responsable del tratamiento</h2>
+  <LegalHolder />
+
+  <h2>2. Qué datos tratamos</h2>
+  <p>Esta web <strong>no guarda datos personales</strong> en ningún servidor ni base de datos. Cuando rellenas el formulario de reserva, los datos (nombre, teléfono, día, menú, número de personas y comentarios) se usan únicamente para componer un mensaje de WhatsApp que se abre en tu dispositivo. Solo nos llegan si tú decides enviarlo.</p>
+  <p>También tratamos los datos que nos facilites directamente por teléfono, WhatsApp o email.</p>
+
+  <h2>3. Finalidad</h2>
+  <ul>
+    <li>Gestionar tu solicitud de reserva y confirmarla.</li>
+    <li>Atender tus consultas.</li>
+    <li>Comunicarnos contigo en relación con tu reserva (cambios, recordatorios o incidencias).</li>
+  </ul>
+  <p>No usamos tus datos para enviarte publicidad sin tu consentimiento ni elaboramos perfiles.</p>
+
+  <h2>4. Legitimación</h2>
+  <p>La base legal es tu consentimiento al enviarnos la solicitud y la aplicación de medidas precontractuales a petición tuya (la gestión de la reserva), conforme al artículo 6.1 a) y b) del Reglamento (UE) 2016/679 (RGPD).</p>
+
+  <h2>5. Conservación</h2>
+  <p>Conservaremos tus datos el tiempo necesario para gestionar la reserva y, después, durante los plazos exigidos por la ley para atender posibles responsabilidades.</p>
+
+  <h2>6. Destinatarios</h2>
+  <p>No cedemos tus datos a terceros salvo obligación legal. Ten en cuenta que, al usar WhatsApp, la comunicación se realiza a través de los servicios de WhatsApp (Meta Platforms), sujetos a su propia política de privacidad.</p>
+
+  <h2>7. Tus derechos</h2>
+  <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a <a href={`mailto:${L.email}`}>{L.email}</a>, indicando el derecho que quieres ejercer. Si consideras que no hemos tratado tus datos correctamente, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
+
+  <h2>8. Menores</h2>
+  <p>Las reservas deben realizarlas personas mayores de 14 años. Los datos de menores incluidos en una reserva (por ejemplo, en el Menú Infantil) deben facilitarse por sus padres o tutores.</p>
 </Legal>

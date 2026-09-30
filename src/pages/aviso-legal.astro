@@ -1,7 +1,35 @@
 ---
 import Legal from '../layouts/Legal.astro';
+import LegalHolder from '../components/LegalHolder.astro';
+import { site } from '../data/site';
+const L = site.legal;
 ---
 <Legal title="Aviso legal">
-  <!-- TODO: sustituir por el texto legal real del titular (nombre/razón social, NIF, domicilio, email). -->
-  <p>Texto pendiente de completar con los datos del titular del negocio.</p>
+  <p><em>Última actualización: septiembre de 2026.</em></p>
+
+  <h2>1. Datos identificativos</h2>
+  <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos del titular de este sitio web ({site.name}, accesible en zambombajerez.com):</p>
+  <LegalHolder />
+
+  <h2>2. Objeto</h2>
+  <p>Este sitio web tiene como finalidad informar sobre los almuerzos de Navidad con zambomba de {site.name}, sus menús, fechas y actividades, y facilitar a los usuarios la solicitud de reservas.</p>
+
+  <h2>3. Condiciones de uso</h2>
+  <p>El acceso a la web es gratuito y atribuye la condición de usuario, que acepta este aviso legal. El usuario se compromete a hacer un uso adecuado de los contenidos y a no emplearlos para actividades ilícitas o contrarias a la buena fe.</p>
+  <p>Las solicitudes de reserva enviadas a través del formulario o de WhatsApp no suponen una reserva confirmada hasta que {site.name} la confirme expresamente.</p>
+
+  <h2>4. Precios e información</h2>
+  <p>Los precios de los menús se indican por persona. {L.company} procura que la información publicada sea exacta y esté actualizada, pero se reserva el derecho a modificar menús, precios, fechas y contenidos sin previo aviso. En caso de discrepancia, prevalecerá la información confirmada en el momento de la reserva.</p>
+
+  <h2>5. Propiedad intelectual e industrial</h2>
+  <p>Todos los contenidos de esta web (textos, fotografías, carteles, logotipos, marcas y diseño) son propiedad de {L.company} o se usan con autorización de sus titulares. Queda prohibida su reproducción, distribución o transformación sin autorización expresa. Las marcas de los colaboradores pertenecen a sus respectivos propietarios.</p>
+
+  <h2>6. Responsabilidad</h2>
+  <p>{L.company} no se hace responsable de los daños derivados del mal uso de la web, de interrupciones del servicio ni de los contenidos de sitios de terceros enlazados (WhatsApp, Google Maps, Instagram o Facebook), sobre los que no tiene control.</p>
+
+  <h2>7. Protección de datos y cookies</h2>
+  <p>El tratamiento de datos personales se rige por nuestra <a href="/privacidad">Política de privacidad</a>, y el uso de cookies, por la <a href="/cookies">Política de cookies</a>.</p>
+
+  <h2>8. Legislación y jurisdicción</h2>
+  <p>Este aviso legal se rige por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales que correspondan conforme a la normativa vigente, y en el caso de consumidores, a los de su domicilio.</p>
 </Legal>

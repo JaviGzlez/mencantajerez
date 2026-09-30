@@ -1,44 +1,37 @@
 ---
-// Mapa de Google que solo se carga con el consentimiento de cookies.
+// Tarjeta de ubicación: foto del local + dirección + botón a Google Maps.
+// No carga ningún mapa de terceros, así que no instala cookies.
+import Photo from './Photo.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { fotos } from '../data/fotos';
 ---
-<div class="map" data-map data-src={site.mapEmbed}>
-  <div class="map-ph">
-    <Icon name="pin" />
-    <p><strong>{site.address.street}</strong><br />{site.address.city}</p>
-    <div class="map-actions">
-      <button type="button" class="btn btn-outline small" data-map-load>Ver mapa aquí</button>
-      <a class="link-arrow" href={site.mapLink} target="_blank" rel="noopener">Abrir en Google Maps <Icon name="arrow" /></a>
-    </div>
-    <p class="map-note">Al cargar el mapa, Google puede instalar cookies.</p>
+<a class="loc" href={site.mapLink} target="_blank" rel="noopener" aria-label={`Cómo llegar a ${site.name}, ${site.address.street}, ${site.address.city}`}>
+  <div class="bg"><Photo src={fotos.grupoPatio.src} alt="" /></div>
+  <div class="body">
+    <span class="pin"><Icon name="pin" /></span>
+    <p class="kicker">Te esperamos en</p>
+    <p class="addr">{site.address.street}</p>
+    <p class="city">Centro de {site.address.city.replace(' de la Frontera', '')}</p>
+    <span class="btn btn-gold go">Cómo llegar <Icon name="arrow" /></span>
   </div>
-</div>
-
-<script>
-  document.querySelectorAll<HTMLElement>('[data-map]').forEach((box) => {
-    const load = () => {
-      if (box.querySelector('iframe')) return;
-      const f = document.createElement('iframe');
-      f.src = box.dataset.src!;
-      f.title = 'Mapa de ubicación de Mencanta Jerez';
-      f.loading = 'lazy';
-      f.referrerPolicy = 'no-referrer-when-downgrade';
-      box.replaceChildren(f);
-    };
-    if (document.documentElement.dataset.consent === 'all') load();
-    window.addEventListener('mj-consent', (e) => { if ((e as CustomEvent).detail === 'all') load(); });
-    box.querySelector('[data-map-load]')?.addEventListener('click', load);
-  });
-</script>
+</a>
 
 <style>
-  .map { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 3; background: var(--cream-100); }
-  .map :global(iframe) { width: 100%; height: 100%; border: 0; display: block; }
-  .map-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; padding: 20px; }
-  .map-ph > :global(svg) { width: 34px; height: 34px; color: var(--wine-700); }
-  .map-ph p { margin: 0; color: var(--ink-700); }
-  .map-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 20px; margin-top: 6px; }
-  .map :global(.btn.small) { min-height: 42px; padding: 8px 18px; font-size: 0.9rem; }
-  .map-note { font-size: 0.8rem; color: var(--ink-500) !important; }
+  .loc {
+    position: relative; isolation: isolate; display: flex; align-items: flex-end;
+    aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden;
+    text-decoration: none; color: #fff; box-shadow: var(--shadow-lg);
+  }
+  .bg { position: absolute; inset: 0; z-index: -1; }
+  .bg :global(.photo) { transition: transform 0.6s ease; }
+  .loc:hover .bg :global(.photo) { transform: scale(1.04); }
+  .bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20, 3, 6, 0.92) 0%, rgba(20, 3, 6, 0.55) 45%, rgba(20, 3, 6, 0.15) 100%); }
+  .body { padding: clamp(20px, 3vw, 30px); width: 100%; }
+  .pin { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--gold-400); color: var(--wine-950); margin-bottom: 14px; }
+  .pin :global(svg) { width: 22px; height: 22px; }
+  .kicker { margin: 0 0 2px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-400); }
+  .addr { margin: 0; font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.9rem); line-height: 1.15; }
+  .city { margin: 2px 0 16px; color: rgba(246, 238, 225, 0.8); }
+  .go { min-height: 44px; padding: 10px 22px; }
 </style>

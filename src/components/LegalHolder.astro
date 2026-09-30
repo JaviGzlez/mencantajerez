@@ -1,0 +1,19 @@
+---
+import { site } from '../data/site';
+const L = site.legal;
+---
+<ul class="holder">
+  <li><strong>Titular:</strong> {L.company}</li>
+  <li><strong>CIF:</strong> {L.cif}</li>
+  {L.address && <li><strong>Domicilio social:</strong> {L.address}</li>}
+  <li><strong>Teléfono:</strong> <a href={`tel:+34${L.phone.replace(/\s/g, '')}`}>{L.phone}</a></li>
+  <li><strong>Email:</strong> <a href={`mailto:${L.email}`}>{L.email}</a></li>
+  {L.registry && <li><strong>Datos registrales:</strong> {L.registry}</li>}
+  <li><strong>Nombre comercial:</strong> {site.name}</li>
+  <li><strong>Establecimiento:</strong> {site.address.street}, {site.address.city} ({site.address.region})</li>
+</ul>
+
+<style>
+  .holder { list-style: none; padding: 20px 22px !important; margin: 0 0 1.6em; background: var(--cream-100); border-radius: var(--radius-sm); }
+  .holder li { margin: 4px 0; }
+</style>

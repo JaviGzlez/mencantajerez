@@ -9,10 +9,9 @@
  */
 ---
 <div class="cookie" data-cookie role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
-  <p>Usamos cookies técnicas y, si aceptas, las del mapa de Google. <a href="/cookies">Más info</a></p>
+  <p>Esta web solo usa cookies técnicas necesarias para funcionar. <a href="/cookies">Más info</a></p>
   <div class="cookie-actions">
-    <button type="button" class="c-btn ghost" data-cookie-reject>Rechazar</button>
-    <button type="button" class="c-btn" data-cookie-accept>Aceptar</button>
+    <button type="button" class="c-btn" data-cookie-accept>Entendido</button>
   </div>
 </div>
 
@@ -31,7 +30,6 @@
   else box.hidden = false;
 
   box.querySelector('[data-cookie-accept]')!.addEventListener('click', () => save('all'));
-  box.querySelector('[data-cookie-reject]')!.addEventListener('click', () => save('necessary'));
   document.querySelectorAll('[data-cookie-settings]').forEach((el) =>
     el.addEventListener('click', (e) => { e.preventDefault(); box.hidden = false; }),
   );

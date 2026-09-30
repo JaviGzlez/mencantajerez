@@ -1,5 +1,6 @@
 ---
 import Legal from '../layouts/Legal.astro';
+import LegalHolder from '../components/LegalHolder.astro';
 ---
 <Legal title="Política de cookies">
   <p><em>Última actualización: septiembre de 2026.</em></p>
@@ -8,19 +9,18 @@ import Legal from '../layouts/Legal.astro';
   <p>Las cookies y tecnologías similares (como el almacenamiento local del navegador) son pequeños archivos que una web guarda en tu dispositivo para recordar información sobre tu visita.</p>
 
   <h2>Qué usamos en esta web</h2>
-  <p>Esta web <strong>no utiliza cookies de publicidad ni de analítica</strong>. Solo usamos lo siguiente:</p>
+  <p>Esta web <strong>no utiliza cookies de publicidad, de analítica ni de terceros</strong>. Solo usamos lo siguiente:</p>
   <table>
     <thead><tr><th>Nombre</th><th>Tipo</th><th>Finalidad</th><th>Duración</th></tr></thead>
     <tbody>
-      <tr><td><code>mj-consent</code></td><td>Técnica (propia, almacenamiento local)</td><td>Recordar si has aceptado o rechazado las cookies opcionales</td><td>Hasta que la borres</td></tr>
-      <tr><td>Google Maps</td><td>De terceros (Google)</td><td>Mostrar el mapa de nuestra ubicación. Solo se carga si aceptas las cookies o pulsas «Ver mapa aquí»</td><td>Según Google</td></tr>
+      <tr><td><code>mj-consent</code></td><td>Técnica (propia, almacenamiento local)</td><td>Recordar que ya has visto el aviso de cookies</td><td>Hasta que la borres</td></tr>
     </tbody>
   </table>
-  <p>Los enlaces a WhatsApp, Instagram y Facebook solo te llevan a esos servicios cuando pulsas en ellos; a partir de ese momento se aplican sus propias políticas.</p>
+  <p>Los enlaces a WhatsApp, Google Maps, Instagram y Facebook solo te llevan a esos servicios cuando pulsas en ellos; a partir de ese momento se aplican sus propias políticas.</p>
 
   <h2>Cómo cambiar tu elección</h2>
-  <p>Puedes cambiar tu decisión en cualquier momento desde <a href="#" data-cookie-settings>Configurar cookies</a> o desde el enlace del pie de página. También puedes borrar o bloquear las cookies desde la configuración de tu navegador.</p>
-  <p>Más información sobre las cookies de Google: <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener">policies.google.com/technologies/cookies</a>.</p>
+  <p>Puedes borrar o bloquear las cookies desde la configuración de tu navegador.</p>
 
-  <!-- TODO: añadir el titular de la web cuando lleguen los datos legales -->
+  <h2>Responsable</h2>
+  <LegalHolder />
 </Legal>
