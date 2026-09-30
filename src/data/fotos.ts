@@ -16,6 +16,7 @@ export const fotos = {
   cantaorPalmas: { src: F('11-cantaor-palmas'), alt: 'Cantaor tocando palmas durante los villancicos' },
   bailePatio: { src: F('12-baile-patio'), alt: 'Baile flamenco en el patio mientras el público toca palmas' },
   cantaores: { src: F('13-cantaores'), alt: 'Dos cantaores interpretando villancicos en el escenario' },
+  brindisMesa: { src: F('14-brindis-mesa'), alt: 'Comensales brindando en la mesa durante el almuerzo de Navidad' },
 };
 
 // Orden de la galería
@@ -25,12 +26,13 @@ export const galeria = [
   fotos.selfie,
   fotos.amigasFiesta,
   { ...fotos.escenario, wide: true },
-  { ...fotos.cantaores, wide: true },
+  fotos.cantaores,
   fotos.grupoCandela,
   fotos.amigasBodega,
   { ...fotos.grupoPatio, wide: true },
   fotos.cantaorPalmas,
   fotos.baile,
   fotos.amigosCopas,
-  { ...fotos.amigosColumna, wide: true },
+  fotos.amigosColumna,
+  { ...fotos.brindisMesa, wide: true },
 ];

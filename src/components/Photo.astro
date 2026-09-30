@@ -17,9 +17,10 @@ interface Props {
   width?: number;
   height?: number;
   fallback?: string;
-  position?: string; // object-position, ej. "75% center"
+  position?: string; // object-position, ej. "75% center" (solo para la foto de respaldo si hay fallback)
+  focus?: string; // object-position que se aplica siempre (encuadre de la foto real)
 }
-const { src, alt, class: cls, eager = false, width = 1600, height = 1067, fallback, position } = Astro.props;
+const { src, alt, class: cls, eager = false, width = 1600, height = 1067, fallback, position, focus } = Astro.props;
 const pub = (p: string) => path.join(process.cwd(), 'public', p);
 const exists = (p: string) => fs.existsSync(pub(p));
 
@@ -34,7 +35,7 @@ if (real) {
 const srcset = webp ? (webpSmall ? `${webpSmall} 1200w, ${webp} 2000w` : webp) : null;
 // Si hay fallback, la posición solo se aplica a la foto de respaldo
 const usePos = position && (!fallback || real === fallback);
-const style = usePos ? `object-position:${position}` : undefined;
+const style = focus && real !== fallback ? `object-position:${focus}` : usePos ? `object-position:${position}` : undefined;
 ---
 {real ? (
   <picture class:list={['photo-wrap', cls]}>
