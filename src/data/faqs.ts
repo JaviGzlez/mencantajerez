@@ -14,7 +14,7 @@ export const faqs = [
   },
   {
     q: '¿Qué menús tenéis y cuánto cuestan?',
-    a: 'Menú 1 (45 €), Menú 2 (50 €), Menú Celíaco (45 €), Menú Vegano (40 €) y Menú Infantil (20 €), por persona. Los menús de adulto incluyen bodega: refrescos, cerveza, vinos generosos de González Byass, tinto y Croft Twist.',
+    a: 'Menú 1 (45 €), Menú 2 (50 €), Menú Celíaco (45 €), Menú Vegano (40 €) y Menú Infantil (20 €), por persona. Los menús de adulto incluyen la bebida: refrescos, cerveza, vinos generosos de González Byass, tinto y Croft Twist.',
   },
   {
     q: '¿Tenéis opciones sin gluten, veganas o para niños?',

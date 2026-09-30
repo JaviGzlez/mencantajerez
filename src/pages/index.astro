@@ -21,14 +21,14 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 
 const pillars = [
   { icon: 'music', title: 'Zambomba en directo', text: 'Todos los días actúa nuestro grupo, Los Quintos Mare: villancicos flamencos, cante, palmas y compás.', img: fotos.cantaorPalmas.src },
-  { icon: 'plate', title: 'Menús de Navidad', text: 'Entrantes para compartir, solomillo al oloroso y bodega incluida. También sin gluten, vegano e infantil.', img: fotos.brindisMesa.src },
+  { icon: 'plate', title: 'Menús de Navidad', text: 'Entrantes para compartir, solomillo al oloroso y bebida incluida. También sin gluten, vegano e infantil.', img: fotos.brindisMesa.src },
   { icon: 'glass', title: 'El mejor ambiente', text: 'Música, DJ y promociones en copas para grupos, en pleno centro de Jerez.', img: fotos.baile.src },
 ] as const;
 
 const steps = [
   { n: '01', title: 'Elige tu menú', text: 'Mira nuestros menús de Navidad y quédate con el que más encaje con tu grupo.' },
   { n: '02', title: 'Reserva la fecha', text: 'Escríbenos por WhatsApp con el día y el número de personas. Te confirmamos disponibilidad.' },
-  { n: '03', title: 'Vive la zambomba', text: 'Venid a la Plaza Silos y disfrutad: comida, bodega y zambomba en directo.' },
+  { n: '03', title: 'Vive la zambomba', text: 'Venid a la Plaza Silos y disfrutad: comida, bebida y zambomba en directo.' },
 ];
 
 const gallery = [fotos.bailePatio, fotos.cantaora, fotos.selfie, fotos.cantaores, fotos.amigasFiesta];
@@ -40,7 +40,7 @@ const gallery = [fotos.bailePatio, fotos.cantaora, fotos.selfie, fotos.cantaores
     <div class="container hero-inner hero-wide">
       <span class="eyebrow">Plaza Silos · Centro de Jerez</span>
       <h1>La Navidad<br />se vive en <em class="accent">Jerez</em></h1>
-      <p class="lead">Almuerzos de Navidad con zambomba en directo y el mejor ambiente en pleno centro de Jerez.</p>
+      <p class="lead">Almuerzos de Navidad con zambomba en directo en una de las bodegas más emblemáticas de Jerez, en pleno centro.</p>
       <div class="btn-row">
         <a class="btn" href="/menus">Ver menús <Icon name="arrow" /></a>
         <a class="btn btn-ghost" href="/contacto#reservar" data-reserva>Reservar mesa</a>
@@ -111,7 +111,7 @@ const gallery = [fotos.bailePatio, fotos.cantaora, fotos.selfie, fotos.cantaores
       <div class="section-head center">
         <span class="eyebrow">Nuestros menús</span>
         <h2>Menús de Navidad <em class="accent">con zambomba</em></h2>
-        <p class="lead">Con bodega incluida y zambomba en directo. También sin gluten, vegano e infantil. Elige el tuyo y resérvalo en un mensaje.</p>
+        <p class="lead">Con bebida incluida y zambomba en directo. También sin gluten, vegano e infantil. Elige el tuyo y resérvalo en un mensaje.</p>
       </div>
       <div class="menus">
         <PosterGrid size="small" />
@@ -128,7 +128,7 @@ const gallery = [fotos.bailePatio, fotos.cantaora, fotos.selfie, fotos.cantaores
       <h2>La comida de empresa <em class="accent">que todos recuerdan</em></h2>
       <p class="lead">Olvídate del restaurante de siempre. Una comida de Navidad con zambomba en pleno centro de Jerez une al equipo como ninguna otra cosa: se come, se canta y se brinda.</p>
       <ul class="checks">
-        <li><Icon name="check" />Menús cerrados por persona con bodega incluida</li>
+        <li><Icon name="check" />Menús cerrados por persona con bebida incluida</li>
         <li><Icon name="check" />Opciones sin gluten, vegana e infantil</li>
         <li><Icon name="check" />Zambomba en directo con Los Quintos Mare</li>
         <li><Icon name="check" />Promociones en copas para grupos</li>

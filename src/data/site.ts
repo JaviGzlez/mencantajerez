@@ -6,7 +6,7 @@ export const site = {
   name: 'Mencanta Jerez',
   tagline: 'Vive la Zambomba Jerezana',
   description:
-    'Zambombas en directo todos los días y menús de Navidad en pleno centro de Jerez, en la Plaza Silos. Entrada gratuita a las actuaciones. Reserva tu almuerzo o cena.',
+    'Almuerzos de Navidad con zambomba en directo en una de las bodegas más emblemáticas de Jerez, en la Plaza Silos. Menús con bebida incluida. Reserva tu mesa.',
 
   // WhatsApp de reservas (formato internacional, sin "+" ni espacios)
   // TODO: confirmar cuál de los dos teléfonos tiene WhatsApp
