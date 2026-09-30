@@ -1,4 +1,5 @@
 ---
+import { fotos } from '../data/fotos';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
@@ -21,7 +22,7 @@ const moments = [
     title="Así se vive"
     accent="una zambomba"
     lead="Una tradición que nació en los patios de vecinos de Jerez y que hoy sigue siendo la forma más auténtica de celebrar la Navidad en la ciudad."
-    image="/img/zambomba-hero.jpg"
+    image={fotos.cantaores.src}
     alt="Cantaora durante una zambomba en Jerez"
   />
 
@@ -55,9 +56,9 @@ const moments = [
 
   <section class="section">
     <div class="container mosaic">
-      <div class="m1"><Photo src="/img/zambomba-1.jpg" alt="Manos tocando la zambomba" /></div>
-      <div class="m2"><Photo src="/img/zambomba-2.jpg" alt="Guitarrista flamenco durante la zambomba" /></div>
-      <div class="m3"><Photo src="/img/zambomba-3.jpg" alt="Palmas durante la zambomba" /></div>
+      <div class="m1"><Photo src={fotos.bailePatio.src} alt={fotos.bailePatio.alt} /></div>
+      <div class="m2"><Photo src={fotos.cantaora.src} alt={fotos.cantaora.alt} /></div>
+      <div class="m3"><Photo src={fotos.cantaorPalmas.src} alt={fotos.cantaorPalmas.alt} /></div>
     </div>
     <p style="text-align:center;margin-top:40px"><a class="btn" href="/menus">Ver menús con zambomba <Icon name="arrow" /></a></p>
   </section>

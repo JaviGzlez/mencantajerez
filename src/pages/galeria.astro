@@ -3,27 +3,16 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
 import CtaBand from '../components/CtaBand.astro';
+import { galeria, fotos } from '../data/fotos';
 
-// Para añadir fotos: copiarlas en public/img/galeria y añadir una línea aquí.
-// "wide: true" hace la foto el doble de ancha.
-const photos = [
-  { src: '/img/galeria/01.jpg', alt: 'Zambomba en directo en Mencanta Jerez', wide: true },
-  { src: '/img/galeria/02.jpg', alt: 'Cantaores y palmas durante la zambomba' },
-  { src: '/img/galeria/03.jpg', alt: 'Guitarra flamenca en directo' },
-  { src: '/img/galeria/04.jpg', alt: 'Botas de vino en la bodega' },
-  { src: '/img/galeria/05.jpg', alt: 'Grupo disfrutando de la zambomba', wide: true },
-  { src: '/img/galeria/06.jpg', alt: 'Mesa preparada para la comida de Navidad' },
-  { src: '/img/galeria/07.jpg', alt: 'Platos típicos de Navidad en Jerez' },
-  { src: '/img/galeria/08.jpg', alt: 'Palmas y villancicos alrededor del fuego' },
-  { src: '/img/galeria/09.jpg', alt: 'Ambiente de Navidad en Mencanta Jerez', wide: true },
-];
+const photos = galeria;
 ---
 <Base title="Galería de fotos" description="Fotos de nuestros almuerzos de Navidad con zambomba en Jerez: la zambomba en directo, el cante, la mesa y el mejor ambiente en el centro de Jerez.">
   <PageHero
     eyebrow="Galería"
     title="Momentos que quedan"
     accent="para siempre"
-    image="/img/galeria-hero.jpg"
+    image={fotos.escenario.src}
     alt="Ambiente de zambomba de noche"
   />
 

@@ -2,6 +2,7 @@
 title: 'Qué es una zambomba jerezana: historia, música y tradición'
 description: 'Descubre qué es una zambomba de Jerez, de dónde viene, qué se canta, qué se come y por qué es Bien de Interés Cultural. Todo sobre la Navidad más jerezana.'
 pubDate: 2026-09-28
+image: /img/fotos/12-baile-patio.jpg
 category: Tradición
 imageAlt: 'Grupo cantando villancicos alrededor de la candela en una zambomba de Jerez'
 ---

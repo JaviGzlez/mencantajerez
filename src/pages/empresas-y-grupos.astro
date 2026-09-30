@@ -1,4 +1,5 @@
 ---
+import { fotos } from '../data/fotos';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
@@ -30,7 +31,7 @@ const faqs = [
     title="La comida de empresa"
     accent="que todos recuerdan"
     lead="Almuerzos de Navidad para empresas y grupos en pleno centro de Jerez, con zambomba en directo, bodega incluida y promociones en copas."
-    image="/img/empresas-hero.jpg"
+    image={fotos.grupoPatio.src}
     alt="Grupo de empresa celebrando la Navidad con zambomba"
   >
     <div class="btn-row">
@@ -59,7 +60,7 @@ const faqs = [
 
   <section class="section tight bg-cream">
     <div class="container two">
-      <div class="img"><Photo src="/img/empresas-mesa.jpg" alt="Mesa larga preparada para una comida de empresa" /></div>
+      <div class="img"><Photo src={fotos.grupoCandela.src} alt={fotos.grupoCandela.alt} /></div>
       <div>
         <span class="eyebrow">Cómo lo organizamos</span>
         <h2>Tú nos cuentas, <em class="accent">nosotros lo montamos</em></h2>

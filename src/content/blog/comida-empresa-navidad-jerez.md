@@ -2,6 +2,7 @@
 title: 'Comida de empresa de Navidad en Jerez: ideas para acertar este año'
 description: 'Ideas y consejos para organizar la comida o cena de empresa de Navidad en Jerez: cuándo reservar, qué presupuesto calcular y por qué una zambomba siempre funciona.'
 pubDate: 2026-09-28
+image: /img/fotos/03-grupo-patio.jpg
 category: Empresas
 imageAlt: 'Equipo de trabajo celebrando la comida de Navidad en Jerez'
 ---

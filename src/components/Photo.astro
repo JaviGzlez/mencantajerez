@@ -32,7 +32,9 @@ if (real) {
   if (exists(`${base}-1200.webp`)) webpSmall = `${base}-1200.webp`;
 }
 const srcset = webp ? (webpSmall ? `${webpSmall} 1200w, ${webp} 2000w` : webp) : null;
-const style = position ? `object-position:${position}` : undefined;
+// Si hay fallback, la posición solo se aplica a la foto de respaldo
+const usePos = position && (!fallback || real === fallback);
+const style = usePos ? `object-position:${position}` : undefined;
 ---
 {real ? (
   <picture class:list={['photo-wrap', cls]}>

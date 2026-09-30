@@ -10,6 +10,7 @@ import Faq from '../components/Faq.astro';
 import PostCard from '../components/PostCard.astro';
 import { site, waLink } from '../data/site';
 import { faqs } from '../data/faqs';
+import { fotos } from '../data/fotos';
 
 const menus = (await getCollection('menus', ({ data }) => data.active))
   .sort((a, b) => a.data.order - b.data.order)
@@ -19,9 +20,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const pillars = [
-  { icon: 'music', title: 'Zambomba en directo', text: 'Todos los días actúa nuestro grupo, Los Quintos Mare: villancicos flamencos, cante, palmas y compás.', img: '/img/pilar-zambomba.jpg' },
-  { icon: 'plate', title: 'Menús de Navidad', text: 'Entrantes para compartir, solomillo al oloroso y bodega incluida. También sin gluten, vegano e infantil.', img: '/img/pilar-cocina.jpg' },
-  { icon: 'glass', title: 'El mejor ambiente', text: 'Música, DJ y promociones en copas para grupos, en pleno centro de Jerez.', img: '/img/pilar-ambiente.jpg' },
+  { icon: 'music', title: 'Zambomba en directo', text: 'Todos los días actúa nuestro grupo, Los Quintos Mare: villancicos flamencos, cante, palmas y compás.', img: fotos.cantaorPalmas.src },
+  { icon: 'plate', title: 'Menús de Navidad', text: 'Entrantes para compartir, solomillo al oloroso y bodega incluida. También sin gluten, vegano e infantil.', img: fotos.amigasBodega.src },
+  { icon: 'glass', title: 'El mejor ambiente', text: 'Música, DJ y promociones en copas para grupos, en pleno centro de Jerez.', img: fotos.baile.src },
 ] as const;
 
 const steps = [
@@ -30,13 +31,7 @@ const steps = [
   { n: '03', title: 'Vive la zambomba', text: 'Venid a la Plaza Silos y disfrutad: comida, bodega y zambomba en directo.' },
 ];
 
-const gallery = [
-  { src: '/img/galeria/01.jpg', alt: 'Ambiente de zambomba en Mencanta Jerez' },
-  { src: '/img/galeria/02.jpg', alt: 'Cantaores y palmas durante la zambomba' },
-  { src: '/img/galeria/03.jpg', alt: 'Guitarra flamenca en directo' },
-  { src: '/img/galeria/04.jpg', alt: 'Mesa de Navidad en Mencanta Jerez' },
-  { src: '/img/galeria/05.jpg', alt: 'Grupo disfrutando de la zambomba' },
-];
+const gallery = [fotos.bailePatio, fotos.cantaora, fotos.selfie, fotos.cantaores, fotos.amigasFiesta];
 ---
 <Base overlayHeader>
   <!-- ═════════ HERO ═════════ -->
@@ -71,7 +66,7 @@ const gallery = [
         <a class="link-arrow" href="/la-zambomba">Conoce la experiencia <Icon name="arrow" /></a>
       </div>
       <div class="intro-img reveal">
-        <Photo src="/img/intro.jpg" alt="Zambomba en Mencanta Jerez" />
+        <Photo src={fotos.escenario.src} alt={fotos.escenario.alt} />
       </div>
     </div>
 
@@ -127,7 +122,7 @@ const gallery = [
 
   <!-- ═════════ EMPRESAS ═════════ -->
   <section class="split bg-wine-grad on-dark">
-    <div class="split-img"><Photo src="/img/empresas.jpg" alt="Comida de empresa de Navidad con zambomba" /></div>
+    <div class="split-img"><Photo src={fotos.grupoPatio.src} alt={fotos.grupoPatio.alt} /></div>
     <div class="split-body">
       <span class="eyebrow">Empresas y grupos</span>
       <h2>La comida de empresa <em class="accent">que todos recuerdan</em></h2>
