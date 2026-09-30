@@ -23,7 +23,8 @@ export const site = {
     country: 'ES',
   },
   mapEmbed: 'https://www.google.com/maps?q=Plaza+Silos+7,+Jerez+de+la+Frontera&output=embed',
-  mapLink: 'https://maps.google.com/?q=Plaza+Silos+7,+Jerez+de+la+Frontera',
+  // Ficha de Google de Mencanta Jerez
+  mapLink: 'https://share.google/QHLf6pAxNROygc0La',
 
   band: 'Los Quintos Mare', // grupo que actúa todos los días
   season: 'Fines de semana de noviembre y diciembre',
