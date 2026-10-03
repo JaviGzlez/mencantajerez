@@ -99,6 +99,8 @@ const days = site.openDays.map((iso) => {
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(L.join('\n'))}`;
       okLink.href = url;
       okEl.hidden = false;
+      // Conversión para Meta (solo se envía si el usuario ha aceptado cookies)
+      if (window.mjTrack) window.mjTrack('Lead', { content_name: f.menu, num_items: Number(f.personas) || 1 });
       const mobile = matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (mobile) { location.href = url; return; }
       const w = window.open(url, '_blank');

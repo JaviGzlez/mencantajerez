@@ -49,6 +49,9 @@ export const site = {
     registry: '', // opcional: datos del Registro Mercantil
   },
 
+  // Píxel de Meta (solo se carga si el usuario acepta las cookies)
+  metaPixelId: '2183235549214389',
+
   social: {
     instagram: 'https://www.instagram.com/mencanta_jerez_navidad/',
     facebook: 'https://www.facebook.com/mencantajerezz',

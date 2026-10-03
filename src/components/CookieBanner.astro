@@ -1,38 +1,70 @@
 ---
 /**
- * Aviso de cookies.
- * La web no usa cookies propias de seguimiento. Lo único de terceros es
- * el mapa de Google Maps, que solo se carga si el visitante acepta.
- * Guarda la elección en localStorage ('mj-consent': 'all' | 'necessary')
- * y avisa al resto de la página con el evento 'mj-consent'.
- * Cualquier enlace con data-cookie-settings vuelve a abrir el aviso.
+ * Aviso de cookies + carga del Píxel de Meta.
+ * - "Aceptar": guarda 'all' y carga el píxel.
+ * - "Rechazar": guarda 'necessary' y no se carga nada de terceros.
+ * La elección se guarda en localStorage ('mj-consent').
+ * Cualquier elemento con data-cookie-settings vuelve a abrir el aviso.
+ * Para enviar eventos desde otras partes de la web: window.mjTrack('Lead', {...})
  */
+import { site } from '../data/site';
 ---
 <div class="cookie" data-cookie role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
-  <p>Esta web solo usa cookies técnicas necesarias para funcionar. <a href="/cookies">Más info</a></p>
+  <p>Usamos cookies propias y de Meta para medir y mejorar nuestros anuncios. <a href="/cookies">Más info</a></p>
   <div class="cookie-actions">
-    <button type="button" class="c-btn" data-cookie-accept>Entendido</button>
+    <button type="button" class="c-btn ghost" data-cookie-reject>Rechazar</button>
+    <button type="button" class="c-btn" data-cookie-accept>Aceptar</button>
   </div>
 </div>
 
-<script>
-  const KEY = 'mj-consent';
-  const box = document.querySelector<HTMLElement>('[data-cookie]')!;
-  const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
-  const save = (v: string) => {
-    try { localStorage.setItem(KEY, v); } catch {}
-    box.hidden = true;
-    document.documentElement.dataset.consent = v;
-    window.dispatchEvent(new CustomEvent('mj-consent', { detail: v }));
-  };
-  const current = read();
-  if (current) document.documentElement.dataset.consent = current;
-  else box.hidden = false;
+<script is:inline define:vars={{ pixelId: site.metaPixelId }}>
+  (function () {
+    var KEY = 'mj-consent';
+    var loaded = false;
+    var queue = [];
+    function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
 
-  box.querySelector('[data-cookie-accept]')!.addEventListener('click', () => save('all'));
-  document.querySelectorAll('[data-cookie-settings]').forEach((el) =>
-    el.addEventListener('click', (e) => { e.preventDefault(); box.hidden = false; }),
-  );
+    function loadPixel() {
+      if (loaded || !pixelId) return;
+      loaded = true;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', pixelId);
+      fbq('track', 'PageView');
+      if (/^\/menus\/?$/.test(location.pathname)) fbq('track', 'ViewContent', { content_name: 'Menús de Navidad' });
+      queue.forEach(function (a) { fbq('track', a[0], a[1]); });
+      queue = [];
+    }
+
+    // Disponible para el resto de la web (p. ej. el formulario de reserva)
+    window.mjTrack = function (event, params) {
+      if (loaded && window.fbq) fbq('track', event, params || {});
+      else if (read() === 'all') queue.push([event, params || {}]);
+    };
+
+    if (read() === 'all') loadPixel();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var box = document.querySelector('[data-cookie]');
+      if (!box) return;
+      var current = read();
+      if (current) document.documentElement.dataset.consent = current; else box.hidden = false;
+      function save(v) {
+        try { localStorage.setItem(KEY, v); } catch (e) {}
+        box.hidden = true;
+        document.documentElement.dataset.consent = v;
+        if (v === 'all') loadPixel();
+      }
+      box.querySelector('[data-cookie-accept]').addEventListener('click', function () { save('all'); });
+      box.querySelector('[data-cookie-reject]').addEventListener('click', function () { save('necessary'); });
+      document.querySelectorAll('[data-cookie-settings]').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); box.hidden = false; });
+      });
+    });
+  })();
 </script>
 
 <style>
